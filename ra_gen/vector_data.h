@@ -6,14 +6,20 @@
         #endif
 /* Number of interrupts allocated */
 #ifndef VECTOR_DATA_IRQ_COUNT
-#define VECTOR_DATA_IRQ_COUNT    (1)
+#define VECTOR_DATA_IRQ_COUNT    (3)
 #endif
 /* ISR prototypes */
 void agt_int_isr(void);
+void fcu_frdyi_isr(void);
+void fcu_fiferr_isr(void);
 
 /* Vector table allocations */
 #define VECTOR_NUMBER_AGT0_INT ((IRQn_Type) 0) /* AGT0 INT (AGT interrupt) */
 #define AGT0_INT_IRQn          ((IRQn_Type) 0) /* AGT0 INT (AGT interrupt) */
+#define VECTOR_NUMBER_FCU_FRDYI ((IRQn_Type) 1) /* FCU FRDYI (Flash ready interrupt) */
+#define FCU_FRDYI_IRQn          ((IRQn_Type) 1) /* FCU FRDYI (Flash ready interrupt) */
+#define VECTOR_NUMBER_FCU_FIFERR ((IRQn_Type) 2) /* FCU FIFERR (Flash access error interrupt) */
+#define FCU_FIFERR_IRQn          ((IRQn_Type) 2) /* FCU FIFERR (Flash access error interrupt) */
 #ifdef __cplusplus
         }
         #endif

@@ -1,22 +1,8 @@
-/***********************************************************************************************************************
- * Copyright [2020-2022] Renesas Electronics Corporation and/or its affiliates.  All Rights Reserved.
- *
- * This software and documentation are supplied by Renesas Electronics America Inc. and may only be used with products
- * of Renesas Electronics Corp. and its affiliates ("Renesas").  No other uses are authorized.  Renesas products are
- * sold pursuant to Renesas terms and conditions of sale.  Purchasers are solely responsible for the selection and use
- * of Renesas products and Renesas assumes no liability.  No license, express or implied, to any intellectual property
- * right is granted by Renesas. This software is protected under all applicable laws, including copyright laws. Renesas
- * reserves the right to change or discontinue this software and/or this documentation. THE SOFTWARE AND DOCUMENTATION
- * IS DELIVERED TO YOU "AS IS," AND RENESAS MAKES NO REPRESENTATIONS OR WARRANTIES, AND TO THE FULLEST EXTENT
- * PERMISSIBLE UNDER APPLICABLE LAW, DISCLAIMS ALL WARRANTIES, WHETHER EXPLICITLY OR IMPLICITLY, INCLUDING WARRANTIES
- * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT, WITH RESPECT TO THE SOFTWARE OR
- * DOCUMENTATION.  RENESAS SHALL HAVE NO LIABILITY ARISING OUT OF ANY SECURITY VULNERABILITY OR BREACH.  TO THE MAXIMUM
- * EXTENT PERMITTED BY LAW, IN NO EVENT WILL RENESAS BE LIABLE TO YOU IN CONNECTION WITH THE SOFTWARE OR DOCUMENTATION
- * (OR ANY PERSON OR ENTITY CLAIMING RIGHTS DERIVED FROM YOU) FOR ANY LOSS, DAMAGES, OR CLAIMS WHATSOEVER, INCLUDING,
- * WITHOUT LIMITATION, ANY DIRECT, CONSEQUENTIAL, SPECIAL, INDIRECT, PUNITIVE, OR INCIDENTAL DAMAGES; ANY LOST PROFITS,
- * OTHER ECONOMIC DAMAGE, PROPERTY DAMAGE, OR PERSONAL INJURY; AND EVEN IF RENESAS HAS BEEN ADVISED OF THE POSSIBILITY
- * OF SUCH LOSS, DAMAGES, CLAIMS OR COSTS.
- **********************************************************************************************************************/
+/*
+* Copyright (c) 2020 - 2024 Renesas Electronics Corporation and/or its affiliates
+*
+* SPDX-License-Identifier: BSD-3-Clause
+*/
 
 /***********************************************************************************************************************
  * Includes
@@ -99,20 +85,24 @@ typedef BSP_CMSE_NONSECURE_CALL void (*volatile flash_hp_prv_ns_callback)(flash_
 #define FLASH_HP_FACI_CMD_LOCK_BIT_READ               (0x71U)
 #define FLASH_HP_FACI_CMD_FINAL                       (0xD0U)
 
-/**  Configuration set Command offset*/
-#define FLASH_HP_FCU_CONFIG_SET_ID_BYTE               (0x0000A150U)
 #if (BSP_CFG_MCU_PART_SERIES == 8)
  #define FLASH_HP_FCU_CONFIG_SET_DUAL_MODE            (0x0300A110U)
  #define FLASH_HP_FCU_CONFIG_SET_ACCESS_STARTUP       (0x0300A130U)
  #define FLASH_HP_FCU_CONFIG_SET_BANK_MODE            (0x1300A190U)
-#elif !(defined(BSP_MCU_GROUP_RA6M4) || defined(BSP_MCU_GROUP_RA4M3) || defined(BSP_MCU_GROUP_RA4M2) || \
-    defined(BSP_MCU_GROUP_RA6M5) || defined(BSP_MCU_GROUP_RA4E1) || defined(BSP_MCU_GROUP_RA6E1) ||     \
-    defined(BSP_MCU_GROUP_RA6T2))
- #define FLASH_HP_FCU_CONFIG_SET_ACCESS_STARTUP       (0x0000A160U)
+ #define FLASH_HP_FCU_CONFIG_SET_BANK_MODE_SEC        (0x0300A210U)
+ #define FLASH_HP_BANK_MODE_SECURITY_ATTRIBUTION      (0x0300A290U)
 #else
+ #if BSP_FEATURE_FLASH_SUPPORTS_ACCESS_WINDOW
+  #define FLASH_HP_FCU_CONFIG_SET_ACCESS_STARTUP      (0x0000A160U)
+  #define FLASH_HP_FCU_CONFIG_SET_ID_BYTE             (0x0000A150U)
+ #else
+  #define FLASH_HP_FCU_CONFIG_SET_ACCESS_STARTUP      (0x0100A130U)
+  #define FLASH_HP_FCU_CONFIG_SET_ID_BYTE             (0x0000A120U)
+ #endif
  #define FLASH_HP_FCU_CONFIG_SET_DUAL_MODE            (0x0100A110U)
- #define FLASH_HP_FCU_CONFIG_SET_ACCESS_STARTUP       (0x0100A130U)
  #define FLASH_HP_FCU_CONFIG_SET_BANK_MODE            (0x0100A190U)
+ #define FLASH_HP_FCU_CONFIG_SET_BANK_MODE_SEC        (0x0100A210U)
+ #define FLASH_HP_BANK_MODE_SECURITY_ATTRIBUTION      (0x0100A290U)
 #endif
 
 /* Zero based offset into g_configuration_area_data[] for FAWS */
@@ -241,11 +231,9 @@ static flash_regions_t g_flash_data_region =
     .p_block_array = &g_data_flash_macro_info
 };
 
-#if (FLASH_HP_CFG_CODE_FLASH_PROGRAMMING_ENABLE == 1) && (BSP_FEATURE_FLASH_HP_SUPPORTS_DUAL_BANK == 1)
-static volatile uint32_t * const flash_hp_banksel = (uint32_t *) FLASH_HP_FCU_CONFIG_SET_BANK_MODE;
- #if (FLASH_HP_CFG_PARAM_CHECKING_ENABLE == 1)
+#if (FLASH_HP_CFG_CODE_FLASH_PROGRAMMING_ENABLE == 1) && (BSP_FEATURE_FLASH_HP_SUPPORTS_DUAL_BANK == 1) && \
+    (FLASH_HP_CFG_PARAM_CHECKING_ENABLE == 1)
 static volatile uint32_t * const flash_hp_dualsel = (uint32_t *) FLASH_HP_FCU_CONFIG_SET_DUAL_MODE;
- #endif
 #endif
 
 /***********************************************************************************************************************
@@ -304,6 +292,7 @@ static fsp_err_t flash_hp_cf_write(flash_hp_instance_ctrl_t * const p_ctrl) PLAC
 
  #if (BSP_FEATURE_FLASH_HP_SUPPORTS_DUAL_BANK == 1)
 static fsp_err_t flash_hp_bank_swap(flash_hp_instance_ctrl_t * const p_ctrl) PLACE_IN_RAM_SECTION;
+static uint32_t  flash_hp_banksel_bankswp_addr_get(void);
 
  #endif
 
@@ -320,9 +309,12 @@ static fsp_err_t flash_hp_set_startup_area_boot(flash_hp_instance_ctrl_t * p_ctr
                                                 flash_startup_area_swap_t  swap_type,
                                                 bool                       is_temporary) PLACE_IN_RAM_SECTION;
 
+ #if (BSP_FEATURE_FLASH_SUPPORTS_ID_CODE == 1)
 static fsp_err_t flash_hp_set_id_code(flash_hp_instance_ctrl_t * p_ctrl,
                                       uint8_t const * const      p_id_code,
                                       flash_id_code_mode_t       mode) PLACE_IN_RAM_SECTION;
+
+ #endif
 
 #endif
 
@@ -473,7 +465,7 @@ fsp_err_t R_FLASH_HP_Write (flash_ctrl_t * const p_api_ctrl,
 #if (FLASH_HP_CFG_PARAM_CHECKING_ENABLE == 1)
 
     /* Verify write parameters. If failure return error. */
-    err = r_flash_hp_write_bc_parameter_checking(p_ctrl, flash_address, num_bytes, true);
+    err = r_flash_hp_write_bc_parameter_checking(p_ctrl, flash_address & ~BSP_FEATURE_TZ_NS_OFFSET, num_bytes, true);
     FSP_ERROR_RETURN((err == FSP_SUCCESS), err);
 #endif
 
@@ -483,7 +475,7 @@ fsp_err_t R_FLASH_HP_Write (flash_ctrl_t * const p_api_ctrl,
     p_ctrl->current_operation    = FLASH_OPERATION_NON_BGO;
 
 #if (FLASH_HP_CFG_CODE_FLASH_PROGRAMMING_ENABLE == 1)
-    if (flash_address < BSP_FEATURE_FLASH_DATA_FLASH_START)
+    if ((flash_address & ~BSP_FEATURE_TZ_NS_OFFSET) < BSP_FEATURE_FLASH_DATA_FLASH_START)
     {
  #if (FLASH_HP_CFG_PARAM_CHECKING_ENABLE == 1)
 
@@ -552,7 +544,7 @@ fsp_err_t R_FLASH_HP_Erase (flash_ctrl_t * const p_api_ctrl, uint32_t const addr
     p_ctrl->current_operation = FLASH_OPERATION_NON_BGO;
 
 #if (FLASH_HP_CFG_CODE_FLASH_PROGRAMMING_ENABLE == 1)
-    if (address < BSP_FEATURE_FLASH_DATA_FLASH_START)
+    if ((address & ~BSP_FEATURE_TZ_NS_OFFSET) < BSP_FEATURE_FLASH_DATA_FLASH_START)
     {
         uint32_t start_address = 0;
  #if (FLASH_HP_CFG_PARAM_CHECKING_ENABLE == 1)
@@ -560,13 +552,14 @@ fsp_err_t R_FLASH_HP_Erase (flash_ctrl_t * const p_api_ctrl, uint32_t const addr
  #endif
 
  #if BSP_FEATURE_FLASH_CODE_FLASH_START != 0
-        FSP_ERROR_RETURN(BSP_FEATURE_FLASH_CODE_FLASH_START <= address, FSP_ERR_INVALID_ADDRESS);
+        FSP_ERROR_RETURN(BSP_FEATURE_FLASH_CODE_FLASH_START <= (address & ~BSP_FEATURE_TZ_NS_OFFSET),
+                         FSP_ERR_INVALID_ADDRESS);
  #endif
 
         /* Configure the current parameters based on if the operation is for code flash or data flash. */
-        if (((address) & FLASH_HP_PRV_BANK1_MASK) < BSP_FEATURE_FLASH_HP_CF_REGION0_SIZE)
+        if ((((address & ~BSP_FEATURE_TZ_NS_OFFSET)) & FLASH_HP_PRV_BANK1_MASK) < BSP_FEATURE_FLASH_HP_CF_REGION0_SIZE)
         {
-            start_address = address & ~(BSP_FEATURE_FLASH_HP_CF_REGION0_BLOCK_SIZE - 1);
+            start_address = address & ~((BSP_FEATURE_TZ_NS_OFFSET | BSP_FEATURE_FLASH_HP_CF_REGION0_BLOCK_SIZE) - 1);
 
  #if (FLASH_HP_CFG_PARAM_CHECKING_ENABLE == 1)
             region0_blocks = (BSP_FEATURE_FLASH_HP_CF_REGION0_SIZE - (start_address & FLASH_HP_PRV_BANK1_MASK)) /
@@ -575,7 +568,7 @@ fsp_err_t R_FLASH_HP_Erase (flash_ctrl_t * const p_api_ctrl, uint32_t const addr
         }
         else
         {
-            start_address = address & ~(BSP_FEATURE_FLASH_HP_CF_REGION1_BLOCK_SIZE - 1);
+            start_address = address & ~((BSP_FEATURE_TZ_NS_OFFSET | BSP_FEATURE_FLASH_HP_CF_REGION1_BLOCK_SIZE) - 1);
         }
 
  #if (FLASH_HP_CFG_PARAM_CHECKING_ENABLE == 1)
@@ -586,25 +579,41 @@ fsp_err_t R_FLASH_HP_Erase (flash_ctrl_t * const p_api_ctrl, uint32_t const addr
         }
 
   #if BSP_FEATURE_FLASH_HP_SUPPORTS_DUAL_BANK
-        uint32_t rom_end =
-            (FLASH_HP_PRV_DUALSEL_BANKMD_MASK ==
-             (*flash_hp_dualsel & FLASH_HP_PRV_DUALSEL_BANKMD_MASK)) ? BSP_ROM_SIZE_BYTES : (BSP_ROM_SIZE_BYTES &
-                                                                                             ~UINT16_MAX) / 2;
+        uint32_t rom_end = 0;
 
-        FSP_ERROR_RETURN((start_address & FLASH_HP_PRV_BANK1_MASK) + num_bytes <= rom_end, FSP_ERR_INVALID_BLOCKS);
+        if ((FLASH_HP_PRV_DUALSEL_BANKMD_MASK != (*flash_hp_dualsel & FLASH_HP_PRV_DUALSEL_BANKMD_MASK)))
+        {
+            /* Start address out of range  */
+            rom_end = BSP_FEATURE_FLASH_HP_CF_DUAL_BANK_START + ((BSP_ROM_SIZE_BYTES & ~UINT16_MAX) / 2);
+            FSP_ERROR_RETURN(start_address < rom_end, FSP_ERR_INVALID_ADDRESS);
+
+            /* Region to erase must fall within bank */
+            rom_end = (BSP_ROM_SIZE_BYTES & ~UINT16_MAX) / 2;
+            FSP_ERROR_RETURN((start_address & FLASH_HP_PRV_BANK1_MASK) + num_bytes <= rom_end, FSP_ERR_INVALID_BLOCKS);
+        }
+        else
+        {
+            /* Start address out of range  */
+            rom_end = BSP_FEATURE_FLASH_CODE_FLASH_START + BSP_ROM_SIZE_BYTES;
+            FSP_ERROR_RETURN(start_address < rom_end, FSP_ERR_INVALID_ADDRESS);
+
+            /* Requested region to erase out of range  */
+            FSP_ERROR_RETURN(start_address + num_bytes <= rom_end, FSP_ERR_INVALID_BLOCKS);
+        }
+
   #else
         FSP_ERROR_RETURN(start_address + num_bytes <= (BSP_FEATURE_FLASH_CODE_FLASH_START + BSP_ROM_SIZE_BYTES),
                          FSP_ERR_INVALID_BLOCKS);
   #endif
  #endif
-
-        err = flash_hp_cf_erase(p_ctrl, start_address, num_blocks);
+        start_address |= (address & BSP_FEATURE_TZ_NS_OFFSET);
+        err            = flash_hp_cf_erase(p_ctrl, start_address, num_blocks);
     }
     else
 #endif
     {
 #if (FLASH_HP_CFG_DATA_FLASH_PROGRAMMING_ENABLE == 1)
-        uint32_t start_address = address & ~(BSP_FEATURE_FLASH_HP_DF_BLOCK_SIZE - 1);
+        uint32_t start_address = address & ~((BSP_FEATURE_TZ_NS_OFFSET | BSP_FEATURE_FLASH_HP_DF_BLOCK_SIZE) - 1);
 
  #if (FLASH_HP_CFG_PARAM_CHECKING_ENABLE == 1)
         uint32_t num_bytes = num_blocks * BSP_FEATURE_FLASH_HP_DF_BLOCK_SIZE;
@@ -618,7 +627,8 @@ fsp_err_t R_FLASH_HP_Erase (flash_ctrl_t * const p_api_ctrl, uint32_t const addr
  #endif
 
         /* Initiate the flash erase. */
-        err = flash_hp_df_erase(p_ctrl, start_address, num_blocks);
+        start_address |= (address & BSP_FEATURE_TZ_NS_OFFSET);
+        err            = flash_hp_df_erase(p_ctrl, start_address, num_blocks);
         FSP_ERROR_RETURN(FSP_SUCCESS == err, err);
 #else
 
@@ -659,7 +669,7 @@ fsp_err_t R_FLASH_HP_BlankCheck (flash_ctrl_t * const p_api_ctrl,
 #if (FLASH_HP_CFG_PARAM_CHECKING_ENABLE == 1)
 
     /* Check parameters. If failure return error */
-    err = r_flash_hp_write_bc_parameter_checking(p_ctrl, address, num_bytes, false);
+    err = r_flash_hp_write_bc_parameter_checking(p_ctrl, address & ~BSP_FEATURE_TZ_NS_OFFSET, num_bytes, false);
     FSP_ERROR_RETURN((err == FSP_SUCCESS), err);
 #endif
 
@@ -667,7 +677,7 @@ fsp_err_t R_FLASH_HP_BlankCheck (flash_ctrl_t * const p_api_ctrl,
 
     /* Is this a request to Blank check Code Flash? */
     /* If the address is code flash check if the region is blank. If not blank return error. */
-    if (address < BSP_FEATURE_FLASH_DATA_FLASH_START)
+    if ((address & ~BSP_FEATURE_TZ_NS_OFFSET) < BSP_FEATURE_FLASH_DATA_FLASH_START)
     {
         /* Blank checking for Code Flash does not require any FCU operations. The specified address area
          * can simply be checked for non 0xFF. */
@@ -1358,6 +1368,30 @@ static fsp_err_t flash_hp_cf_write (flash_hp_instance_ctrl_t * const p_ctrl)
  #if (BSP_FEATURE_FLASH_HP_SUPPORTS_DUAL_BANK == 1)
 
 /*******************************************************************************************************************//**
+ * This function checks the security attribution of the Bank Select Register BANKSWP bits and returns the appropriate
+ * register address according to the configured attribution: BANKSEL for nonsecure attribution
+ * and BANKSEL_SEC for secure attribution.
+ *
+ * The security attribution of the BANKSWP bits must be read from the BANKSEL_SEL register rather than determined
+ * from compile time macros in case another program (eg. a bootloader) has modified the configuration area.
+ *
+ * @retval     uint32_t       Address of bank select register bankswap setting
+ **********************************************************************************************************************/
+static uint32_t flash_hp_banksel_bankswp_addr_get (void)
+{
+    volatile uint32_t * const flash_hp_banksel_sel = (uint32_t *) FLASH_HP_BANK_MODE_SECURITY_ATTRIBUTION;
+
+    /* Check if non-secure attribution is selected */
+    if ((*flash_hp_banksel_sel & FLASH_HP_PRV_BANKSEL_BANKSWP_MASK) == FLASH_HP_PRV_BANKSEL_BANKSWP_MASK)
+    {
+        return FLASH_HP_FCU_CONFIG_SET_BANK_MODE;
+    }
+
+    /* Secure attribution selected, return address of secure register */
+    return FLASH_HP_FCU_CONFIG_SET_BANK_MODE_SEC;
+}
+
+/*******************************************************************************************************************//**
  * This function swaps which flash bank will be used to boot from after the next reset.
  * @param[in]  p_ctrl                Flash control block
  * @retval     FSP_SUCCESS           The write started successfully.
@@ -1370,16 +1404,19 @@ static fsp_err_t flash_hp_bank_swap (flash_hp_instance_ctrl_t * const p_ctrl)
 {
     fsp_err_t err = FSP_SUCCESS;
 
+    uint32_t const flash_hp_banksel = flash_hp_banksel_bankswp_addr_get();
+
     /* Unused bits should be written as 1. */
     g_configuration_area_data[0] =
-        (uint16_t) ((~FLASH_HP_PRV_BANKSEL_BANKSWP_MASK) | (~(FLASH_HP_PRV_BANKSEL_BANKSWP_MASK & *flash_hp_banksel)));
+        (uint16_t) ((~FLASH_HP_PRV_BANKSEL_BANKSWP_MASK) |
+                    (~(FLASH_HP_PRV_BANKSEL_BANKSWP_MASK & *((volatile uint32_t *) flash_hp_banksel))));
 
     memset(&g_configuration_area_data[1], UINT8_MAX, 7 * sizeof(uint16_t));
 
     flash_hp_enter_pe_cf_mode(p_ctrl);
 
     /* Write the configuration area to the access/startup region. */
-    err = flash_hp_configuration_area_write(p_ctrl, FLASH_HP_FCU_CONFIG_SET_BANK_MODE);
+    err = flash_hp_configuration_area_write(p_ctrl, flash_hp_banksel);
 
     err = flash_hp_check_errors(err, 0, FSP_ERR_WRITE_FAILED);
 
@@ -1984,9 +2021,14 @@ static fsp_err_t flash_hp_pe_mode_exit (void)
 #endif
 
         R_BSP_FlashCacheEnable();
+#if defined(RENESAS_CORTEX_M85)
+
+        /* Invalidate I-Cache after programming code flash. */
+        SCB_InvalidateICache();
+#endif
     }
 
-#if BSP_FEATURE_BSP_HAS_CODE_SYSTEM_CACHE
+#ifdef R_CACHE
     else if (FLASH_HP_FENTRYR_DF_PE_MODE == pe_mode)
     {
         /* Flush the C-CACHE. */
@@ -2284,7 +2326,7 @@ static fsp_err_t flash_hp_set_startup_area_boot (flash_hp_instance_ctrl_t * p_ct
 
 #endif
 
-#if (FLASH_HP_CFG_CODE_FLASH_PROGRAMMING_ENABLE == 1)
+#if (FLASH_HP_CFG_CODE_FLASH_PROGRAMMING_ENABLE == 1) && (BSP_FEATURE_FLASH_SUPPORTS_ID_CODE == 1)
 
 /*******************************************************************************************************************//**
  * Set the ID code.
@@ -2662,7 +2704,7 @@ static fsp_err_t flash_hp_enter_pe_cf_mode (flash_hp_instance_ctrl_t * const p_c
     /* While the Flash API is in use we will disable the flash cache. */
  #if BSP_FEATURE_BSP_FLASH_CACHE_DISABLE_OPM
     R_BSP_FlashCacheDisable();
- #elif BSP_FEATURE_BSP_HAS_CODE_SYSTEM_CACHE
+ #elif defined(R_CACHE)
 
     /* Disable the C-Cache. */
     R_CACHE->CCACTL = 0U;

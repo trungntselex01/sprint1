@@ -16,8 +16,8 @@ extern const flash_instance_t g_flash0;
 extern flash_hp_instance_ctrl_t g_flash0_ctrl;
 extern const flash_cfg_t g_flash0_cfg;
 
-#ifndef NULL
-void NULL(flash_callback_args_t *p_args);
+#ifndef flash_cb
+void flash_cb(flash_callback_args_t *p_args);
 #endif
 /** AGT Timer Instance */
 extern const timer_instance_t g_timer0;

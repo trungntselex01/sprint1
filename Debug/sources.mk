@@ -41,8 +41,8 @@ C_DEPS :=
 SRC_DEPS := 
 JMP_UPPER_DEPS := 
 PP_DEPS := 
-ASM_UPPER_DEPS := 
 SX_DEPS := 
+ASM_UPPER_DEPS := 
 SX_UPPER_DEPS := 
 OBJS := 
 SECONDARY_FLASH := 
@@ -53,7 +53,6 @@ MAP :=
 
 # Every subdirectory with source files must be described here
 SUBDIRS := \
-ra/board/ra4m2_ek \
 ra/fsp/src/bsp/cmsis/Device/RENESAS/Source \
 ra/fsp/src/bsp/mcu/all \
 ra/fsp/src/r_agt \
