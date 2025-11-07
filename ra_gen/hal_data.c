@@ -2,7 +2,7 @@
 #include "hal_data.h"
 flash_hp_instance_ctrl_t g_flash0_ctrl;
 const flash_cfg_t g_flash0_cfg =
-{ .data_flash_bgo = true, .p_callback = flash_cb, .p_context = NULL,
+{ .data_flash_bgo = true, .p_callback = NULL, .p_context = NULL,
 #if defined(VECTOR_NUMBER_FCU_FRDYI)
     .irq                 = VECTOR_NUMBER_FCU_FRDYI,
 #else
@@ -13,8 +13,8 @@ const flash_cfg_t g_flash0_cfg =
 #else
   .err_irq = FSP_INVALID_VECTOR,
 #endif
-  .err_ipl = (1),
-  .ipl = (1), };
+  .err_ipl = (BSP_IRQ_DISABLED),
+  .ipl = (BSP_IRQ_DISABLED), };
 /* Instance structure to use this module. */
 const flash_instance_t g_flash0 =
 { .p_ctrl = &g_flash0_ctrl, .p_cfg = &g_flash0_cfg, .p_api = &g_flash_on_flash_hp };
@@ -30,8 +30,8 @@ const agt_extended_cfg_t g_timer0_extend =
   .trigger_edge = AGT_TRIGGER_EDGE_RISING, };
 const timer_cfg_t g_timer0_cfg =
 { .mode = TIMER_MODE_PERIODIC,
-/* Actual period: 0.001 seconds. Actual duty: 50%. */.period_counts = (uint32_t) 0xc350,
-  .duty_cycle_counts = 0x61a8, .source_div = (timer_source_div_t) 0, .channel = 0, .p_callback = agt0_callback,
+/* Actual period: 2e-8 seconds. Actual duty: 0%. */.period_counts = (uint32_t) 0x1,
+  .duty_cycle_counts = 0x0, .source_div = (timer_source_div_t) 0, .channel = 0, .p_callback = agt0_callback,
   /** If NULL then do not add & */
 #if defined(NULL)
     .p_context           = NULL,
