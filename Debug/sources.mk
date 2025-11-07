@@ -59,5 +59,6 @@ ra/fsp/src/r_agt \
 ra/fsp/src/r_flash_hp \
 ra/fsp/src/r_ioport \
 ra_gen \
+sm_store \
 src \
 

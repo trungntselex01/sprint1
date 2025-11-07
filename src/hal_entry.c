@@ -2,7 +2,7 @@
 #include <stdint.h>
 #include <string.h>
 #include <stdio.h>
-
+#include "sm_store.h"
 volatile uint64_t timer0_counter = 0;
 typedef enum {
     SET_CONFIG = 0,
@@ -138,6 +138,7 @@ typedef enum {
 void agt0_callback(timer_callback_args_t *p_args){
 
     (void) p_args;
+    sm_store_test();
     timer0_counter ++;
 }
 
@@ -233,12 +234,14 @@ void hal_entry(void)
     }
     memcpy(read_buf, (uint8_t*)FLASH_START_ADDR, FLASH_BLOCK_SIZE);
     if(read_buf[0] == 1 && read_buf[1] == 3){
-        __BKPT(3);
+//        __BKPT(3);
     }
 //              -- test thử nghiệm  --
 
     while (1)
     {
+        sm_store_test();
+        R_BSP_SoftwareDelay(10, 1000);
     }
 
     // code sprint1
