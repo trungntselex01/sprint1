@@ -10,19 +10,20 @@ typedef enum {
     SET_LIMIT  = 2,
     TYPE_TOPIC_COUNT
 } Topic_Type;
-#define FLASH_START_ADDR (0x08000280U)
-#define FLASH_BLOCK_SIZE      (64U)
-#define FLASH_WORD_SIZE       (FLASH_BLOCK_SIZE / 4)
-#define FLASH_TOTAL_BLOCKS    128U
-
+#define BUF_SIZE_WORDS   18
+//#define FLASH_START_ADDR (0x40100000U)
+//#define FLASH_BLOCK_SIZE      (64U)
+//#define FLASH_WORD_SIZE       (FLASH_BLOCK_SIZE / 4)
+//#define FLASH_TOTAL_BLOCKS    128U
+//
 //#define MAGIC_NUMBER          0xA5A5A5A5UL
 //#define PAYLOAD_OFFSET   3U
 //#define PAYLOAD_WORDS    (FLASH_WORD_SIZE - PAYLOAD_OFFSET)
-//
+
 //extern flash_ctrl_t g_flash0_ctrl;
 //extern const flash_cfg_t g_flash0_cfg;
-//
-//
+
+
 //bool sm_flash_init(void){
 //    if (R_FLASH_HP_Open(&g_flash0_ctrl,&g_flash0_cfg) == FSP_SUCCESS) return true;
 //    else return false;
@@ -144,36 +145,36 @@ void agt0_callback(timer_callback_args_t *p_args){
 
 
 
-static fsp_err_t blankcheck_event_flag(void);
-static volatile _Bool g_b_flash_event_not_blank = false;
-static volatile _Bool g_b_flash_event_blank = false;
-static volatile _Bool g_b_flash_event_erase_complete = false;
-static volatile _Bool g_b_flash_event_write_complete = false;
+//static fsp_err_t blankcheck_event_flag(void);
+//static volatile _Bool g_b_flash_event_not_blank = false;
+//static volatile _Bool g_b_flash_event_blank = false;
+//static volatile _Bool g_b_flash_event_erase_complete = false;
+//static volatile _Bool g_b_flash_event_write_complete = false;
 
-void flash_cb(flash_callback_args_t *p_args){
-
-    switch(p_args->event){
-
-    case FLASH_EVENT_NOT_BLANK:
-        g_b_flash_event_not_blank = true;
-        break;
-
-    case FLASH_EVENT_BLANK:
-        g_b_flash_event_blank = true;
-        break;
-
-    case FLASH_EVENT_ERASE_COMPLETE:
-        g_b_flash_event_erase_complete = true;
-        break;
-
-    case FLASH_EVENT_WRITE_COMPLETE:
-        g_b_flash_event_write_complete = true;
-        break;
-
-    default:
-        break;
-    }
-}
+//void flash_cb(flash_callback_args_t *p_args){
+//
+//    switch(p_args->event){
+//
+//    case FLASH_EVENT_NOT_BLANK:
+//        g_b_flash_event_not_blank = true;
+//        break;
+//
+//    case FLASH_EVENT_BLANK:
+//        g_b_flash_event_blank = true;
+//        break;
+//
+//    case FLASH_EVENT_ERASE_COMPLETE:
+//        g_b_flash_event_erase_complete = true;
+//        break;
+//
+//    case FLASH_EVENT_WRITE_COMPLETE:
+//        g_b_flash_event_write_complete = true;
+//        break;
+//
+//    default:
+//        break;
+//    }
+//}
 
 void hal_entry(void)
 {
@@ -185,57 +186,84 @@ void hal_entry(void)
     __enable_irq ();
 //              -- test thử nghiệm  --
     flash_result_t blank_check_result = FLASH_RESULT_BLANK;
-    uint8_t write_buf[FLASH_BLOCK_SIZE];
-    uint8_t read_buf[FLASH_BLOCK_SIZE];
-    memset(write_buf, 0, sizeof(write_buf));
-    write_buf[0] = 1;
-    write_buf[1] = 3;
+//    uint8_t write_buf[FLASH_BLOCK_SIZE];
+//    uint8_t read_buf[FLASH_BLOCK_SIZE];
+//    memset(write_buf, 0, sizeof(write_buf));
+//    write_buf[0] = 1;
+//    write_buf[1] = 3;
 
-    err = R_FLASH_HP_Open(&g_flash0_ctrl, &g_flash0_cfg);
-    if(err != FSP_SUCCESS){
-        __BKPT(0);
-    }
 
-    err = R_FLASH_HP_Erase(&g_flash0_ctrl, FLASH_START_ADDR, 1);
-    if(err != FSP_SUCCESS){
-            __BKPT(1);
-        }
 
-    if (g_flash0_cfg.data_flash_bgo == true){
-        while (!g_b_flash_event_erase_complete);
-        g_b_flash_event_erase_complete = false;
-    }
 
-    /* Data flash blank check */
-    if (R_FLASH_HP_BlankCheck (&g_flash0_ctrl, FLASH_START_ADDR, FLASH_BLOCK_SIZE, &blank_check_result)
-            != FSP_SUCCESS)
-    {
-        __BKPT(4);
-    }
-    /* Validate the blank check result */
-    if(blank_check_result == FLASH_RESULT_NOT_BLANK){
-        __BKPT(5);
-    }
-    else if(blank_check_result == FLASH_RESULT_BGO_ACTIVE){
-        if(blankcheck_event_flag() != FSP_SUCCESS){
-            __BKPT(6);
-        }
-    }
-    err = R_FLASH_HP_Write(&g_flash0_ctrl, (uint32_t)write_buf, FLASH_START_ADDR, FLASH_BLOCK_SIZE);
-    if (err != FSP_SUCCESS)
+    // test write
+    fsp_err_t err;
+    uint32_t read_buf[BUF_SIZE_WORDS];
+    static uint32_t buf[BUF_SIZE_WORDS];
+    static uint32_t buf_j[BUF_SIZE_WORDS];
+    static const uint32_t default_buf[BUF_SIZE_WORDS] = {
+            MAGIC_NUMBER, 1, 0, 11,22,33,44,55,66,77,88,99,111,122,133,144,155,166
+        };
+    memset(buf, 0, sizeof(buf));
+    memset(buf_j, 0, sizeof(buf_j));
+    for (uint32_t i = PAYLOAD_OFFSET; i < BUF_SIZE_WORDS; i++)
         {
-            __BKPT(2);
+            buf_j[i] = i * 100 + 5;
         }
+    sm_storage_store(buf, buf_j, default_buf, sizeof(default_buf));
+    storage_load(read_buf, default_buf, sizeof(default_buf));
 
-    /* Wait for the write complete event flag, if BGO is SET  */
-    if (g_flash0_cfg.data_flash_bgo == true)    {
-        while (!g_b_flash_event_write_complete);
-        g_b_flash_event_write_complete = false;
-    }
-    memcpy(read_buf, (uint8_t*)FLASH_START_ADDR, FLASH_BLOCK_SIZE);
-    if(read_buf[0] == 1 && read_buf[1] == 3){
-//        __BKPT(3);
-    }
+
+
+
+
+
+
+
+//    err = R_FLASH_HP_Open(&g_flash0_ctrl, &g_flash0_cfg);
+//    if(err != FSP_SUCCESS){
+//        __BKPT(0);
+//    }
+//
+//    err = R_FLASH_HP_Erase(&g_flash0_ctrl, FLASH_START_ADDR, 1);
+//    if(err != FSP_SUCCESS){
+//            __BKPT(1);
+//        }
+//
+//    if (g_flash0_cfg.data_flash_bgo == true){       //  quá trình xóa diễn ra bên trong
+//        while (!g_b_flash_event_erase_complete);    // đợi cho đến khi flag = true
+//        g_b_flash_event_erase_complete = false;     // reset lại
+//    }
+//
+//    /* Data flash blank check */
+//    if (R_FLASH_HP_BlankCheck (&g_flash0_ctrl, FLASH_START_ADDR, FLASH_BLOCK_SIZE, &blank_check_result)
+//            != FSP_SUCCESS)
+//    {
+//        __BKPT(4);
+//    }
+//    /* Validate the blank check result */
+//    if(blank_check_result == FLASH_RESULT_NOT_BLANK){
+//        __BKPT(5);
+//    }
+//    else if(blank_check_result == FLASH_RESULT_BGO_ACTIVE){
+//        if(blankcheck_event_flag() != FSP_SUCCESS){
+//            __BKPT(6);
+//        }
+//    }
+//    err = R_FLASH_HP_Write(&g_flash0_ctrl, (uint32_t)write_buf, FLASH_START_ADDR, FLASH_BLOCK_SIZE);
+//    if (err != FSP_SUCCESS)
+//        {
+//            __BKPT(2);
+//        }
+//
+//    /* Wait for the write complete event flag, if BGO is SET  */
+//    if (g_flash0_cfg.data_flash_bgo == true)    {
+//        while (!g_b_flash_event_write_complete);
+//        g_b_flash_event_write_complete = false;
+//    }
+//    memcpy(read_buf, (uint8_t*)FLASH_START_ADDR, FLASH_BLOCK_SIZE);
+//    if(read_buf[0] == 1 && read_buf[1] == 3){
+////        __BKPT(3);
+//    }
 //              -- test thử nghiệm  --
 
     while (1)
