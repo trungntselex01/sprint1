@@ -17,20 +17,20 @@ const uint32_t MAGIC_KEY_VALUE   = 0x5A5A5A5A;
 
 
 
-typedef struct{
-    sm_hal_flash_t* m_flash;
-    uint32_t m_start_address;
-}sm_bp_storage_impl_t;
-
-#define _impl(x) (sm_bp_storage_impl_t*)(x)
-
-int32_t sm_bp_storage_store(sm_bp_storage_t* _this, uint32_t* _bp_store, uint32_t _addr ){
-    sm_bp_storage_impl_t* this = _impl(_this);
-       if(!this){
-           return -1;
-       }
-       int32_t sm_hal_flash_read(_this, _addr, void *_data, int32_t _size)
-}
+//typedef struct{
+//    sm_hal_flash_t* m_flash;
+//    uint32_t m_start_address;
+//}sm_bp_storage_impl_t;
+//
+//#define _impl(x) (sm_bp_storage_impl_t*)(x)
+//
+//int32_t sm_bp_storage_store(sm_bp_storage_t* _this, uint32_t* _bp_store, uint32_t _addr ){
+//    sm_bp_storage_impl_t* this = _impl(_this);
+//       if(!this){
+//           return -1;
+//       }
+//       int32_t sm_hal_flash_read(_this, _addr, void *_data, int32_t _size)
+//}
 
 
 
