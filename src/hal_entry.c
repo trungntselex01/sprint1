@@ -4,12 +4,6 @@
 #include <stdio.h>
 #include "sm_store.h"
 volatile uint64_t timer0_counter = 0;
-typedef enum {
-    SET_CONFIG = 0,
-    SET_POWER  = 1,
-    SET_LIMIT  = 2,
-    TYPE_TOPIC_COUNT
-} Topic_Type;
 #define BUF_SIZE_WORDS   18
 //#define FLASH_START_ADDR (0x40100000U)
 //#define FLASH_BLOCK_SIZE      (64U)
@@ -196,21 +190,6 @@ void hal_entry(void)
 
 
     // test write
-    fsp_err_t err;
-    uint32_t read_buf[BUF_SIZE_WORDS];
-    static uint32_t buf[BUF_SIZE_WORDS];
-    static uint32_t buf_j[BUF_SIZE_WORDS];
-    static const uint32_t default_buf[BUF_SIZE_WORDS] = {
-            MAGIC_NUMBER, 1, 0, 11,22,33,44,55,66,77,88,99,111,122,133,144,155,166
-        };
-    memset(buf, 0, sizeof(buf));
-    memset(buf_j, 0, sizeof(buf_j));
-    for (uint32_t i = PAYLOAD_OFFSET; i < BUF_SIZE_WORDS; i++)
-        {
-            buf_j[i] = i * 100 + 5;
-        }
-    sm_storage_store(buf, buf_j, default_buf, sizeof(default_buf));
-    storage_load(read_buf, default_buf, sizeof(default_buf));
 
 
 

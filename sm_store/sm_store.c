@@ -47,6 +47,15 @@ void flash_cb(flash_callback_args_t *p_args){
     }
 }
 
+typedef struct{
+    uint32_t start_addr;
+    uint16_t crc;
+    uint32_t block_size;
+    fsp_err_t sm_flash_erase(uint32_t addr, uint32_t num_blocks);
+    fsp_err_t sm_flash_write(uint32_t addr, void *data, uint32_t size);
+};
+
+
 bool sm_flash_init(void){
         if (R_FLASH_HP_Open(&g_flash0_ctrl,&g_flash0_cfg) == FSP_SUCCESS) return true;
         else return false;
@@ -118,66 +127,76 @@ uint16_t crc16_compute(uint8_t *data, uint32_t len){
     return crc;
 }
 
-int32_t sm_storage_find_empty_block(uint32_t data_size)
-{
-    uint32_t buf[FLASH_WORD_SIZE];
-    uint32_t needed_blocks = (data_size + FLASH_BLOCK_SIZE - 1) / FLASH_BLOCK_SIZE; // làm tròn lên
-    uint32_t consecutive_free = 0;
-    int32_t first_free_block = -1;
-
-    for (uint32_t i = 0; i < FLASH_TOTAL_BLOCKS; i++)
-    {
-        uint32_t addr = FLASH_START_ADDR + FLASH_BLOCK_SIZE * i;
-        sm_flash_read(addr, buf, FLASH_BLOCK_SIZE);
-
-        bool is_erased = true;
-        for (uint32_t j = 0; j < FLASH_WORD_SIZE; j++)
-        {
-            if (buf[j] != 0xFFFFFFFF)
-            {
-                is_erased = false;
-                break;
-            }
-        }
-
-        if (is_erased)
-        {
-            // bắt đầu chuỗi trống mới
-            if (consecutive_free == 0)
-                first_free_block = i;
-
-            consecutive_free++;
-
-            if (consecutive_free >= needed_blocks)
-                return first_free_block; // đủ chỗ, trả về vị trí bắt đầu
-        }
-        else
-        {
-            // reset chuỗi trống
-            consecutive_free = 0;
-            first_free_block = -1;
-        }
-    }
-
-    return -1;
+int32_t sm_storage_find_needed_block(uint32_t data_size){
+    uint32_t needed_blocks = (data_size + FLASH_BLOCK_SIZE - 1) / FLASH_BLOCK_SIZE;
+    return needed_blocks;
 }
 
-int32_t sm_storage_find_lastest_block(uint32_t data_size){    // tìm block phù hợp
-    uint32_t buf[data_size/sizeof(uint32_t)];
-    int32_t last_valid = -1;
-    for(uint32_t i = 0; i < FLASH_TOTAL_BLOCKS; i++){
-        uint32_t addr = FLASH_START_ADDR + FLASH_BLOCK_SIZE * i;
-        sm_flash_read(addr, buf, sizeof(buf));
-        if(buf[0] == MAGIC_NUMBER){
-            if(buf[1] == 1){
-                uint16_t stored_crc = (uint16_t) buf[2];
-                uint16_t calc_crc = crc16_compute((uint8_t *)&buf[PAYLOAD_OFFSET], (data_size/sizeof(uint32_t) - PAYLOAD_OFFSET))
-                if(stored_crc == calc_crc) last_valid = i;
-            }
-        }
-    }
-    return last_valid;
-}
+
+
+
+
+
+//int32_t sm_storage_find_empty_block(uint32_t data_size)
+//{
+//    uint32_t buf[FLASH_WORD_SIZE];
+//    uint32_t needed_blocks = (data_size + FLASH_BLOCK_SIZE - 1) / FLASH_BLOCK_SIZE; // làm tròn lên
+//    uint32_t consecutive_free = 0;
+//    int32_t first_free_block = -1;
+//
+//    for (uint32_t i = 0; i < FLASH_TOTAL_BLOCKS; i++)
+//    {
+//        uint32_t addr = FLASH_START_ADDR + FLASH_BLOCK_SIZE * i;
+//        sm_flash_read(addr, buf, FLASH_BLOCK_SIZE);
+//
+//        bool is_erased = true;
+//        for (uint32_t j = 0; j < FLASH_WORD_SIZE; j++)
+//        {
+//            if (buf[j] != 0xFFFFFFFF)
+//            {
+//                is_erased = false;
+//                break;
+//            }
+//        }
+//
+//        if (is_erased)
+//        {
+//            // bắt đầu chuỗi trống mới
+//            if (consecutive_free == 0)
+//                first_free_block = i;
+//
+//            consecutive_free++;
+//
+//            if (consecutive_free >= needed_blocks)
+//                return first_free_block; // đủ chỗ, trả về vị trí bắt đầu
+//        }
+//        else
+//        {
+//            // reset chuỗi trống
+//            consecutive_free = 0;
+//            first_free_block = -1;
+//        }
+//    }
+//
+//    return -1;
+//}
+
+//int32_t sm_storage_find_lastest_block(uint32_t data_size){    // tìm block phù hợp
+//    uint32_t buf[data_size/sizeof(uint32_t)];
+//    int32_t last_valid = -1;
+//    for(uint32_t i = 0; i < FLASH_TOTAL_BLOCKS; i++){
+//        uint32_t addr = FLASH_START_ADDR + FLASH_BLOCK_SIZE * i;
+//        sm_flash_read(addr, buf, sizeof(buf));
+//        if(buf[0] == MAGIC_NUMBER){
+//            if(buf[1] == 1){
+//                uint16_t stored_crc = (uint16_t) buf[2];
+//                uint16_t calc_crc = crc16_compute((uint8_t *)&buf[PAYLOAD_OFFSET], (data_size/sizeof(uint32_t) - PAYLOAD_OFFSET))
+//                if(stored_crc == calc_crc) last_valid = i;
+//            }
+//        }
+//    }
+//    return last_valid;
+//}
 
 
 bool storage_load(uint32_t *buf, const uint32_t *default_buf, uint32_t data_size){
