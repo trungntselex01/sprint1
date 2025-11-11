@@ -8,18 +8,16 @@
 
 #include <stdbool.h>
 #include "sm_hal_flash.h"
-typedef struct{
-    uint32_t m_block_size;
-    uint32_t m_block_count;
-    uint32_t m_start_addr;
-    uint32_t m_end_addr;
-}sm_hal_flash_impl_t;
+#include "string.h"
+#include "hal_data.h"
+
+
+
 
 #define _impl(x) (sm_hal_flash_impl_t*)(x)
 
-bool sm_hal_flash_init(void){
-    if (R_FLASH_HP_Open(&g_flash0_ctrl,&g_flash0_cfg) == FSP_SUCCESS) return true;
-            else return false;
+void sm_hal_flash_init(void){
+    R_FLASH_HP_Open(&g_flash0_ctrl,&g_flash0_cfg);
 }
 
 int32_t sm_hal_flash_get_block_size(sm_hal_flash_t *_this){
@@ -38,7 +36,7 @@ int32_t sm_hal_flash_read(sm_hal_flash_t *_this, uint32_t _addr, void *_data, in
     }
 //    sm_flash_protect(this);
 
-    memcpy(_data, (uint8_t*)_addr, _size);
+    memcpy(_data, (uint32_t*)_addr, _size);
 
 //    sm_flash_unprotect(this);
 
@@ -88,18 +86,26 @@ int32_t sm_hal_flash_write_block(sm_hal_flash_t *_this, uint32_t _addr, void *_d
         return (-1);
     }
 
-//    uint8_t read_buff[_size];
-//    memcpy(read_buff,(uint8_t*)_addr, _size);
-//
-//    sm_flash_unprotect(this);
-//
-//    if(sm_flash_string_cmp((char*)read_buff, (char*)_data, _size) == 0 ){
-//        LOG_ERR(TAG, "Verify write %d byte to addr 0x%x FAILED", _size, _addr);
-//        return (-1);
-//    }
-//
-//    return 0;
+    uint8_t read_buff[_size];
+    memcpy(read_buff,(uint8_t*)_addr, _size);
+
+    sm_flash_unprotect(this);
+
+    if(memcmp((char*)read_buff, (char*)_data, _size) == 0 ){
+
+        return (0);
+    }
+
+    return -1;
 }
+
+//int32_t sm_hal_flash_store_block(sm_hal_flash_t *_this, uint32_t _addr, void *_data, int32_t _size){
+//    sm_hal_flash_impl_t* this = _impl(_this);
+//        if(!this){
+//            return -1;
+//        }
+//
+//}
 
 
 
