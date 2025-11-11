@@ -18,12 +18,12 @@ typedef struct sm_hal_flash_impl{
     uint32_t m_end_addr;
 }sm_hal_flash_impl_t;
 
-typedef void sm_hal_flash_t;
 void sm_hal_flash_init(void);
-int32_t sm_hal_flash_get_block_size(sm_hal_flash_t *_this);
-int32_t sm_hal_flash_write_block(sm_hal_flash_t *_this, uint32_t _addr, void *_data, int32_t _size);
-int32_t sm_hal_flash_read(sm_hal_flash_t *_this, uint32_t _addr, void *_data, int32_t _size);
-int32_t sm_hal_flash_erase_block(sm_hal_flash_t *_this, uint32_t _addr, int32_t _size);
+sm_hal_flash_impl_t* sm_hal_flash_create(void);
+int32_t sm_hal_flash_get_block_size(sm_hal_flash_impl_t *_this);
+int32_t sm_hal_flash_write_block(sm_hal_flash_impl_t *_this, uint32_t _addr, void *_data, int32_t _size);
+int32_t sm_hal_flash_read(sm_hal_flash_impl_t *_this, uint32_t _addr, void *_data, int32_t _size);
+int32_t sm_hal_flash_erase_block(sm_hal_flash_impl_t *_this, uint32_t _addr, int32_t _size);
 
 static inline void sm_flash_unprotect(){
 

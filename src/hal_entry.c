@@ -26,8 +26,17 @@ void agt0_callback(timer_callback_args_t *p_args){
     timer0_counter ++;
 }
 
-uint32_t read_buffer[4] = {0, 0, 0, 0};
-uint32_t read_energy[3] = {0, 0, 0};
+uint8_t read_buffer[4] = {0, 0, 0, 0};
+uint8_t read_energy[3] = {0, 0, 0};
+
+typedef struct sprint1_t {
+
+    sm_hal_flash_impl_t* m_hal_flash ;
+    sm_bp_storage_impl_t* m_bp_config;
+    sm_bp_storage_impl_t* m_bp_energy;
+}sprint1;
+
+sprint1 sprint_app;
 void hal_entry(void)
 {
     __disable_irq ();
@@ -35,24 +44,17 @@ void hal_entry(void)
     fsp_err_t err = R_AGT_Open(&g_timer0_ctrl, &g_timer0_cfg);
     if(err != FSP_SUCCESS) {};
     err = R_AGT_Start(&g_timer0_ctrl);
-    sm_hal_flash_impl_t sm_hal_flash = {
-        .m_block_size  = FLASH_BLOCK_SIZE,
-        .m_block_number = FLASH_TOTAL_BLOCKS,
-        .m_start_addr  = FLASH_START_ADDR,
-        .m_end_addr    = FLASH_END_ADDR
-    };
+    sprint_app.m_hal_flash = sm_hal_flash_create();
 
-    sm_bp_storage_impl_t sm_bp_store = {
-         .m_start_address = FLASH_ENERGY_DATA
-    };
+    sprint_app.m_bp_config = sm_bp_storage_create (sprint_app.m_hal_flash,
+                                                   FLASH_CONFIG_DATA, sizeof(read_buffer));
+    sprint_app.m_bp_energy = sm_bp_storage_create (sprint_app.m_hal_flash,
+                                                   FLASH_ENERGY_DATA, sizeof(read_energy));
 
-     sm_hal_flash_init();
-     uint32_t data_buffer[4] = {1, 2, 3, 4};
-     sm_hal_flash_erase_block((sm_hal_flash_t *)&sm_hal_flash, FLASH_CONFIG_DATA, sizeof(data_buffer));
+     uint8_t data_buffer[4] = {1, 5, 3, 4};
+     sm_hal_flash_store_block(sprint_app.m_bp_config, data_buffer);
      R_BSP_SoftwareDelay(1, 1000);
-     sm_hal_flash_write_block((sm_hal_flash_t *)&sm_hal_flash, FLASH_CONFIG_DATA, data_buffer, sizeof(data_buffer));
-     R_BSP_SoftwareDelay(1, 1000);
-     sm_hal_flash_read((sm_hal_flash_t *)&sm_hal_flash, FLASH_CONFIG_DATA, read_buffer, sizeof(read_buffer));
+     sm_hal_flash_read(sprint_app.m_hal_flash, FLASH_CONFIG_DATA, read_buffer, sizeof(read_buffer));
      if(read_buffer[0] == data_buffer[0] ) {
 
 //         __BKPT(0);
@@ -60,12 +62,12 @@ void hal_entry(void)
 
 
      // triển khai ghi năng lượng vào đây
-     uint32_t write_energy[3] = {5,6,7};
-     sm_hal_flash_store_block((sm_hal_flash_t *) &sm_bp_store, FLASH_ENERGY_DATA, write_energy, sizeof(write_energy));
-     sm_hal_flash_read((sm_hal_flash_t *)&sm_hal_flash, FLASH_ENERGY_DATA, read_energy, sizeof(read_buffer));
-     if(read_energy[0] == write_energy[0]){
-        // __BKPT(1);
-     }
+//     uint32_t write_energy[3] = {5,6,7};
+////     sm_hal_flash_store_block((sm_hal_flash_impl_t *) &sm_bp_store, FLASH_ENERGY_DATA, write_energy, sizeof(write_energy));
+////     sm_hal_flash_read((sm_hal_flash_impl_t *)&sm_hal_flash, FLASH_ENERGY_DATA, read_energy, sizeof(read_buffer));
+//     if(read_energy[0] == write_energy[0]){
+//        // __BKPT(1);
+//     }
 
 
     __enable_irq ();
