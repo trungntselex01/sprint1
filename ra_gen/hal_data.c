@@ -2,7 +2,7 @@
 #include "hal_data.h"
 flash_hp_instance_ctrl_t g_flash0_ctrl;
 const flash_cfg_t g_flash0_cfg =
-{ .data_flash_bgo = true, .p_callback = flash_cb, .p_context = NULL,
+{ .data_flash_bgo = false, .p_callback = flash_cb, .p_context = NULL,
 #if defined(VECTOR_NUMBER_FCU_FRDYI)
     .irq                 = VECTOR_NUMBER_FCU_FRDYI,
 #else
@@ -13,8 +13,8 @@ const flash_cfg_t g_flash0_cfg =
 #else
   .err_irq = FSP_INVALID_VECTOR,
 #endif
-  .err_ipl = (1),
-  .ipl = (1), };
+  .err_ipl = (11),
+  .ipl = (11), };
 /* Instance structure to use this module. */
 const flash_instance_t g_flash0 =
 { .p_ctrl = &g_flash0_ctrl, .p_cfg = &g_flash0_cfg, .p_api = &g_flash_on_flash_hp };

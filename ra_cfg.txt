@@ -60,12 +60,12 @@ FSP Configuration
     Assert Failures: Return FSP_ERR_ASSERTION
     Error Log: No Error Log
     Clock Registers not Reset Values during Startup: Disabled
-    Main Oscillator Populated: Populated
+    Main Oscillator Populated: Not Populated
     PFS Protect: Enabled
     C Runtime Initialization : Enabled
     Early BSP Initialization : Disabled
     Main Oscillator Clock Source: Crystal or Resonator
-    Subclock Populated: Populated
+    Subclock Populated: Not Populated
     Subclock Drive (Drive capacitance availability varies by MCU): Standard/Normal mode
     Subclock Stabilization Time (ms): 1000
     
@@ -243,6 +243,8 @@ FSP Configuration
     
   User Event Links
     
+  Linker Section Mappings
+    
   Module "I/O Port (r_ioport)"
     Parameter Checking: Default (BSP)
     
@@ -253,7 +255,7 @@ FSP Configuration
     
   Module "Flash (r_flash_hp)"
     Parameter Checking: Default (BSP)
-    Code Flash Programming Enable: Enabled
+    Code Flash Programming Enable: Disabled
     Data Flash Programming Enable: Enabled
     
   HAL
@@ -286,8 +288,8 @@ FSP Configuration
       
     Instance "g_flash0 Flash (r_flash_hp)"
       Name: g_flash0
-      Data Flash Background Operation: Enabled
+      Data Flash Background Operation: Disabled
       Callback: flash_cb
-      Flash Ready Interrupt Priority: Priority 1
-      Flash Error Interrupt Priority: Priority 1
+      Flash Ready Interrupt Priority: Priority 11
+      Flash Error Interrupt Priority: Priority 11
       

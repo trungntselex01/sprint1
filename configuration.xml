@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<raConfiguration version="10">
+<raConfiguration version="12">
   <generalSettings>
     <option key="#Board#" value="board.custom"/>
     <option key="CPU" value="RA4M2"/>
@@ -88,12 +88,12 @@
       <property id="config.bsp.common.assert" value="config.bsp.common.assert.none"/>
       <property id="config.bsp.common.error_log" value="config.bsp.common.error_log.none"/>
       <property id="config.bsp.common.soft_reset" value="config.bsp.common.soft_reset.disabled"/>
-      <property id="config.bsp.common.main_osc_populated" value="config.bsp.common.main_osc_populated.enabled"/>
+      <property id="config.bsp.common.main_osc_populated" value="config.bsp.common.main_osc_populated.disabled"/>
       <property id="config.bsp.common.pfs_protect" value="config.bsp.common.pfs_protect.enabled"/>
       <property id="config.bsp.common.c_runtime_init" value="config.bsp.common.c_runtime_init.enabled"/>
       <property id="config.bsp.common.early_init" value="config.bsp.common.early_init.disabled"/>
       <property id="config.bsp.common.main_osc_clock_source" value="config.bsp.common.main_osc_clock_source.crystal"/>
-      <property id="config.bsp.common.subclock_populated" value="config.bsp.common.subclock_populated.enabled"/>
+      <property id="config.bsp.common.subclock_populated" value="config.bsp.common.subclock_populated.disabled"/>
       <property id="config.bsp.common.subclock_drive" value="config.bsp.common.subclock_drive.standard"/>
       <property id="config.bsp.common.subclock_stabilization_ms" value="1000"/>
     </config>
@@ -180,6 +180,7 @@
   </raComponentSelection>
   <raElcConfiguration/>
   <raIcuConfiguration/>
+  <raLinkMapConfiguration/>
   <raModuleConfiguration>
     <module id="module.driver.ioport_on_ioport.0">
       <property id="module.driver.ioport.name" value="g_ioport"/>
@@ -210,10 +211,10 @@
     </module>
     <module id="module.driver.flash_on_flash_hp.1936395350">
       <property id="module.driver.flash.name" value="g_flash0"/>
-      <property id="module.driver.flash.data_flash_bgo" value="module.driver.flash.data_flash_bgo.enabled"/>
+      <property id="module.driver.flash.data_flash_bgo" value="module.driver.flash.data_flash_bgo.disabled"/>
       <property id="module.driver.flash.p_callback" value="flash_cb"/>
-      <property id="module.driver.flash.ipl" value="board.icu.common.irq.priority1"/>
-      <property id="module.driver.flash.err_ipl" value="board.icu.common.irq.priority1"/>
+      <property id="module.driver.flash.ipl" value="board.icu.common.irq.priority11"/>
+      <property id="module.driver.flash.err_ipl" value="board.icu.common.irq.priority11"/>
     </module>
     <context id="_hal.0">
       <stack module="module.driver.ioport_on_ioport.0"/>
@@ -222,7 +223,7 @@
     </context>
     <config id="config.driver.flash_hp">
       <property id="config.driver.flash_hp.param_checking_enable" value="config.flash_hp.param_checking_enable.bsp"/>
-      <property id="config.driver.flash_hp.param_code_flash_programming_enable" value="config.driver.flash_hp.param_code_flash_programming_enable.enabled"/>
+      <property id="config.driver.flash_hp.param_code_flash_programming_enable" value="config.driver.flash_hp.param_code_flash_programming_enable.disabled"/>
       <property id="config.driver.flash_hp.param_data_flash_programming_enable" value="config.driver.flash_hp.param_data_flash_programming_enable.enabled"/>
     </config>
     <config id="config.driver.ioport">

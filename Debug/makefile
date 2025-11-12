@@ -98,7 +98,7 @@ main-build: Interupt_Timer.elf secondary-outputs
 
 # Tool invocations
 Interupt_Timer.elf: $(OBJS) $(USER_OBJS) $(LINKER_SCRIPT)
-	$(file > Interupt_Timer.elf.in,-mcpu=cortex-m33 -mthumb -mfloat-abi=hard -mfpu=fpv5-sp-d16 -O2 -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -fno-strict-aliasing -Wunused -Wuninitialized -Wall -Wextra -Wmissing-declarations -Wconversion -Wpointer-arith -Wshadow -Wlogical-op -Waggregate-return -Wfloat-equal -g -T "fsp.ld" -Xlinker --gc-sections -L "D:\\SELEX\\HMI\\sprint1_project/script" -Wl,-Map,"Interupt_Timer.map" --specs=nano.specs --specs=nosys.specs --specs=rdimon.specs -o "Interupt_Timer.elf" -Wl,--start-group $(OBJS) $(USER_OBJS) $(LIBS) -Wl,--end-group)
+	$(file > Interupt_Timer.elf.in,-mcpu=cortex-m33 -mthumb -mfloat-abi=hard -mfpu=fpv5-sp-d16 -O2 -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -fno-strict-aliasing -Wunused -Wuninitialized -Wall -Wextra -Wmissing-declarations -Wconversion -Wpointer-arith -Wshadow -Wlogical-op -Waggregate-return -Wfloat-equal -g -T "fsp.ld" -Xlinker --gc-sections -L "C:\\Users\\My PC\\e2_studio\\workspace\\Interupt_Timer/script" -Wl,-Map,"Interupt_Timer.map" --specs=nano.specs --specs=nosys.specs --specs=rdimon.specs -o "Interupt_Timer.elf" -Wl,--start-group $(OBJS) $(USER_OBJS) $(LIBS) -Wl,--end-group)
 	@echo Building target: $@ && arm-none-eabi-gcc @"Interupt_Timer.elf.in"
 Interupt_Timer.srec: Interupt_Timer.elf
 	arm-none-eabi-objcopy -O srec "Interupt_Timer.elf"  "Interupt_Timer.srec"

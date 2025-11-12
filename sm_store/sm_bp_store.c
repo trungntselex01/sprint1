@@ -36,7 +36,7 @@ sm_bp_storage_impl_t* sm_bp_storage_create(sm_hal_flash_impl_t *m_flash
 
     return g_bp_storage;
 }
-
+uint8_t bytes[4] = {0,0,0,0};
 int32_t sm_hal_flash_store_block(sm_bp_storage_impl_t *_this, void *_data){
 
     if (!_this)
@@ -53,7 +53,7 @@ int32_t sm_hal_flash_store_block(sm_bp_storage_impl_t *_this, void *_data){
     uint32_t block_count = end_block - start_block;
 
     // Tổng vùng cần thao tác (địa chỉ từ đầu block đầu -> cuối block cuối)
-    uint32_t erase_start_addr = _impl(_this)->m_start_address + start_block * _impl(_this)->m_flash->m_block_size;
+    uint32_t erase_start_addr = _impl(_this)->m_flash->m_start_addr + start_block * _impl(_this)->m_flash->m_block_size;
     uint32_t total_size = block_count * _impl(_this)->m_flash->m_block_size;
 
     // Cấp buffer tạm để lưu toàn bộ vùng
@@ -64,8 +64,12 @@ int32_t sm_hal_flash_store_block(sm_bp_storage_impl_t *_this, void *_data){
         return -3;
     }
 
+//    memcpy(&bytes[0],_data,3);
+    bytes[0] = *(uint8_t*)_data;
+    bytes[1] = *((uint8_t*)_data + 1);
+    bytes[2] = *((uint8_t*)_data + 2);
     uint32_t write_index = (_impl(_this)->m_start_address - erase_start_addr) / 1;
-    memcpy(&buffer[0],_data, _this->m_size);
+    memcpy(buffer + write_index,_data, _this->m_size);
     //  Ghi lại toàn bộ vùng (đã có dữ liệu cũ + mới)
     if (sm_hal_flash_write_block (_this->m_flash, erase_start_addr, buffer, total_size) != 0)
     {
@@ -74,10 +78,33 @@ int32_t sm_hal_flash_store_block(sm_bp_storage_impl_t *_this, void *_data){
     return 0; //
 }
 
-//typedef struct{
-//    sm_hal_flash_t* m_flash;
-//    uint32_t m_start_address;
-//}sm_bp_storage_impl_t;
+
+
+
+
+
+
+//int32_t sm_bp_storage_store(sm_bp_storage_impl_t* _this, void *_data){
+//    if (!_this)
+//        {
+//            return -1;
+//        }
+//    uint8_t buff[(_this)->m_size];
+//    memset(buff, 0, sizeof(buff));
+//    if (sm_hal_flash_read (_this->m_flash, _this->m_start_address, buff, _this->m_size) != 0){
+//            return -3;
+//        }
+//    int32_t cmp = memcmp(buff, (uint8_t)_data, _this->m_size);
+//    if(cmp == 0) return 0;
+//    else {
+//        if(sm_hal_flash_store_block(_this, _data) != 0){
+//            sm_hal_flash_store_block(_this, buff);
+//            return -1;
+//        }
+//    }
+//    return 1;
+//
+//}
 //
 //#define _impl(x) (sm_bp_storage_impl_t*)(x)
 //

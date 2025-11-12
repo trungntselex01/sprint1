@@ -18,6 +18,8 @@ typedef struct sm_hal_flash_impl{
     uint32_t m_end_addr;
 }sm_hal_flash_impl_t;
 
+void flash_cb(flash_callback_args_t *p_args);
+
 void sm_hal_flash_init(void);
 sm_hal_flash_impl_t* sm_hal_flash_create(void);
 int32_t sm_hal_flash_get_block_size(sm_hal_flash_impl_t *_this);
