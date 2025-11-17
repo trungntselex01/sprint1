@@ -31,8 +31,8 @@ const agt_extended_cfg_t g_timer0_extend =
   .counter_bit_width = AGT_COUNTER_BIT_WIDTH_16, };
 const timer_cfg_t g_timer0_cfg =
 { .mode = TIMER_MODE_PERIODIC,
-/* Actual period: 2e-7 seconds. Actual duty: 0%. */.period_counts = (uint32_t) 0x1,
-  .duty_cycle_counts = 0x0, .source_div = (timer_source_div_t) 0, .channel = 0, .p_callback = agt0_callback,
+/* Actual period: 0.001 seconds. Actual duty: 50%. */.period_counts = (uint32_t) 0x1388,
+  .duty_cycle_counts = 0x9c4, .source_div = (timer_source_div_t) 0, .channel = 0, .p_callback = agt0_callback,
   /** If NULL then do not add & */
 #if defined(NULL)
     .p_context           = NULL,

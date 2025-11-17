@@ -1,14 +1,18 @@
 #include <sm_config_store.h>
+#include <stdbool.h>
 #include "hal_data.h"
 #include "sm_crc.h"
 #include <stdint.h>
 #include <string.h>
 #include <stdio.h>
 #include "sm_hal_flash.h"
+#include "sm_parse_proc.h"
+#include "sm_define.h"
+#include "sm_config_init.h"
 volatile uint64_t timer0_counter = 0;           // (0x08000000U)    (0x08001FFF)
 #define BUF_SIZE_WORDS   18
 #define FLASH_MODE_DATA     (0x0800003CU)
-#define FLASH_CONFIG_DATA   (0x08000280U)
+#define FLASH_CONFIG_DATA   (0x08000140U)
 #define FLASH_ENERGY_DATA   (0x08000000U)   // ghi thong so nang luong vao day
 #define FLASH_START_ADDR    (0x08000000U)
 #define FLASH_END_ADDR      0x08001FFFU
@@ -22,14 +26,22 @@ volatile uint64_t timer0_counter = 0;           // (0x08000000U)    (0x08001FFF)
 
 
 
-void agt0_callback(timer_callback_args_t *p_args){
+int32_t test_parse_config(bp_config_data_t* _cfg);
 
-    (void) p_args;
-    timer0_counter ++;
-}
+
+bp_config_data_t bp_config_data_default = {
+    .cov_mv     = 4200,
+    .cuv_mv     = 3000,
+    .utd_deg_c  = 0,
+    .otd_deg_c  = 65,
+    .occ_ma     = 19000,
+    .ocd_ma     = 55000,
+    .scd_ma     = 80000,
+    .debouce_ms = 3000,
+};
 
 typedef struct sprint1_t {
-
+    bp_config_data_t _cfg_;
     sm_hal_flash_impl_t* m_hal_flash ;
     sm_config_storage_impl_t* m_bp_config;
     sm_config_storage_impl_t* m_bp_energy;
@@ -37,11 +49,36 @@ typedef struct sprint1_t {
 }sprint1;
 
 sprint1 sprint_app;
+bool reset_sys_flag = false;
 
+int32_t test_parse_config(bp_config_data_t *_cfg)
+    {
+        const char test_json[] = "{"
+                "  \"type\": \"SET_CONFIG\","
+                "  \"data\": {"
+                "    \"cov_mv\": 4600,"
+                "    \"cuv_mv\": 3000,"
+                "    \"utd_deg_c\": 0,"
+                "    \"otd_deg_c\": 65,"
+                "    \"occ_ma\": 19000,"
+                "    \"ocd_ma\": 55000,"
+                "    \"scd_ma\": 80000,"
+                "    \"debouce_ms\": 3000"
+                "  }"
+                "}";
 
-uint8_t read_buffer[4] = {0};
-uint8_t read_energy[1] = {0};
-uint8_t read_mode[5] = {0};
+        sm_msg_t msg;
+        msg.m_payload = (char*) test_json;
+
+        bp_config_data_t cfg;
+
+        int32_t ret = sm_topic_config_handle (&msg, &cfg);
+        *_cfg = cfg;
+
+        char resp[128];
+        sm_topic_config_response (ret, resp);
+        return ret;
+    }
 
 void hal_entry(void)
 {
@@ -53,76 +90,50 @@ void hal_entry(void)
     sprint_app.m_hal_flash = sm_hal_flash_create();
 
     sprint_app.m_bp_config = sm_config_storage_create (sprint_app.m_hal_flash,
-                                                   FLASH_CONFIG_DATA, sizeof(read_buffer));
-    sprint_app.m_bp_energy = sm_config_storage_create (sprint_app.m_hal_flash,
-                                                   FLASH_ENERGY_DATA, sizeof(read_energy));
-    sprint_app.m_bp_mode = sm_config_storage_create (sprint_app.m_hal_flash,
-                                                     FLASH_MODE_DATA, sizeof(read_mode));
-
-     uint8_t data_buffer[4] = {1,2,2,4};
-     uint8_t write_energy[1] = {5};
-     uint8_t write_mode[5] = {6,7,8,9,10};
-//     uint16_t crc = sm_CRC_CalculateCRC16( (uint8_t*)data_buffer + 8 , (sizeof(data_buffer) - 8));
-
-     sm_hal_flash_store(sprint_app.m_bp_config, data_buffer);
-     R_BSP_SoftwareDelay(1, 1000);
-     sm_hal_flash_load(sprint_app.m_bp_config, read_buffer);
-     if(read_buffer[0] == data_buffer[0] ) {
-
-//         __BKPT(0);
-     }
+                                                   FLASH_CONFIG_DATA, sizeof(bp_config_data_t));
 
 
-     sm_hal_flash_store(sprint_app.m_bp_energy, write_energy);
-     R_BSP_SoftwareDelay(1, 1000);
-     sm_hal_flash_load(sprint_app.m_bp_energy, read_energy);
-     if(read_energy[0] == write_energy[0]){
- //         __BKPT(1);
-     }
-
-     sm_hal_flash_store(sprint_app.m_bp_mode, write_mode);
-     R_BSP_SoftwareDelay(1, 1000);
-     sm_hal_flash_load(sprint_app.m_bp_mode, read_mode);
-          if(read_mode[0] == write_mode[0]){
-      //         __BKPT(1);
-          }
-
-
-
-
-
-
-
-     // triển khai ghi năng lượng vào đây
-//     uint8_t write_energy[3] = {5,6,7};
-//     sm_hal_flash_store_block(sprint_app.m_bp_energy, write_energy);
-//     R_BSP_SoftwareDelay(1, 1000);
-//     sm_hal_flash_read(sprint_app.m_hal_flash, FLASH_ENERGY_DATA, read_energy, sizeof(read_energy));
-//     if(read_energy[0] == write_energy[0]){
-//        // __BKPT(1);
-//     }
-//     sm_hal_flash_read(sprint_app.m_hal_flash, FLASH_CONFIG_DATA, read_buffer, sizeof(read_buffer));
-//     if(read_buffer[2] == data_buffer[2] ) {
-//
-////         __BKPT(0);
-//     }
-
+//    test_parse_config(_cfg_);
+    int32_t status_load = sm_hal_flash_load(sprint_app.m_bp_config, &sprint_app._cfg_);
+    if(status_load == -2){
+        sm_hal_flash_store(sprint_app.m_bp_config, &bp_config_data_default);
+        memcpy(&sprint_app._cfg_, &bp_config_data_default, sizeof(bp_config_data_default));
+    }
 
     __enable_irq ();
-
 
     while (1)
     {
 
+        if(reset_sys_flag == true){
+
+            __NVIC_SystemReset();
+        }
+        R_BSP_SoftwareDelay(10, 1000);
     }
 
     // code sprint1
 }
 
+bool check_json_flag = false;
+void agt0_callback(timer_callback_args_t *p_args){
+    (void)p_args;
+    bp_config_data_t _cfg;
+    if(check_json_flag == true){
+    int32_t _ret = test_parse_config( &_cfg);
+    if(_ret == 1){
+    if(sm_hal_flash_store(sprint_app.m_bp_config, &_cfg) == 0){
 
+        reset_sys_flag = true;
+    }
+    check_json_flag = false;
+    }
+    }
 
+    timer0_counter ++;
+    if(timer0_counter == 10000){
+        check_json_flag = true;
+    }
 
-//void flash_cb(flash_callback_args_t *p_args){
-//
-//    (void) p_args;
-//}
+}
+

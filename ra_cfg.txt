@@ -273,7 +273,7 @@ FSP Configuration
       General: Channel: 0
       General: Mode: Periodic
       General: Period: 1
-      General: Period Unit: Raw Counts
+      General: Period Unit: Milliseconds
       Output: Duty Cycle Percent (only applicable in PWM mode): 50
       General: Count Source: PCLKB
       Output: AGTOA Output: Disabled
