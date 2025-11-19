@@ -2,3 +2,7 @@
 /ra_gen/
 /src/
 /sm_store/
+/sm_hal/
+/sm_json_proc/
+/sm_lib/
+/sm_utils/

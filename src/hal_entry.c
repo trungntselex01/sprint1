@@ -67,6 +67,13 @@ int32_t test_parse_config(bp_config_data_t *_cfg)
                 "  }"
                 "}";
 
+//        const char test_json[] = "{"
+//                "  \"type\": \"SET_CONFIG\","
+//                "  \"data\": {"
+//                "    \"cov_mv\": 4600,"
+//                "    \"cuv_mv\": 3000"
+//                "  ";
+
         sm_msg_t msg;
         msg.m_payload = (char*) test_json;
 

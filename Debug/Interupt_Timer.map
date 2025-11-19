@@ -9,15 +9,15 @@ C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.2 Rel1/bin/../lib/gcc/
 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.2 Rel1/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v8-m.main+fp/hard\libg_nano.a(libc_a-mlock.o)
                               C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.2 Rel1/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v8-m.main+fp/hard\libg_nano.a(libc_a-mallocr.o) (__malloc_lock)
 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.2 Rel1/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v8-m.main+fp/hard\libg_nano.a(libc_a-atoll.o)
-                              ./sm_store/sm_parse_proc.o (atoll)
+                              ./sm_json_proc/sm_parse_proc.o (atoll)
 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.2 Rel1/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v8-m.main+fp/hard\libg_nano.a(libc_a-ctype_.o)
-                              ./sm_store/sm_tiny_json.o (_ctype_)
+                              ./sm_lib/sm_tiny_json.o (_ctype_)
 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.2 Rel1/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v8-m.main+fp/hard\libg_nano.a(libc_a-findfp.o)
                               C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.2 Rel1/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v8-m.main+fp/hard\libg_nano.a(libc_a-exit.o) (__stdio_exit_handler)
 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.2 Rel1/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v8-m.main+fp/hard\libg_nano.a(libc_a-fwalk.o)
                               C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.2 Rel1/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v8-m.main+fp/hard\libg_nano.a(libc_a-findfp.o) (_fwalk_sglue)
 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.2 Rel1/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v8-m.main+fp/hard\libg_nano.a(libc_a-sprintf.o)
-                              ./sm_store/sm_json_maker.o (sprintf)
+                              ./sm_lib/sm_json_maker.o (sprintf)
 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.2 Rel1/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v8-m.main+fp/hard\libg_nano.a(libc_a-stdio.o)
                               C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.2 Rel1/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v8-m.main+fp/hard\libg_nano.a(libc_a-findfp.o) (__sread)
 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.2 Rel1/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v8-m.main+fp/hard\libg_nano.a(libc_a-memcmp.o)
@@ -45,7 +45,7 @@ C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.2 Rel1/bin/../lib/gcc/
 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.2 Rel1/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v8-m.main+fp/hard\libg_nano.a(libc_a-lock.o)
                               C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.2 Rel1/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v8-m.main+fp/hard\libg_nano.a(libc_a-findfp.o) (__retarget_lock_init_recursive)
 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.2 Rel1/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v8-m.main+fp/hard\libg_nano.a(libc_a-strcmp.o)
-                              ./sm_store/sm_parse_proc.o (strcmp)
+                              ./sm_lib/sm_tiny_json.o (strcmp)
 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.2 Rel1/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v8-m.main+fp/hard\libg_nano.a(libc_a-memcpy-stub.o)
                               ./src/hal_entry.o (memcpy)
 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.2 Rel1/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v8-m.main+fp/hard\libg_nano.a(libc_a-freer.o)
@@ -105,84 +105,84 @@ Discarded input sections
  .text          0x00000000        0x0 ./src/hal_entry.o
  .data          0x00000000        0x0 ./src/hal_entry.o
  .bss           0x00000000        0x0 ./src/hal_entry.o
+ .text          0x00000000        0x0 ./sm_utils/sm_crc.o
+ .data          0x00000000        0x0 ./sm_utils/sm_crc.o
+ .bss           0x00000000        0x0 ./sm_utils/sm_crc.o
+ .text.sm_CRC_Init
+                0x00000000       0x10 ./sm_utils/sm_crc.o
+ .text.sm_CRC_CalculateCRC8
+                0x00000000       0x38 ./sm_utils/sm_crc.o
+ .text.sm_CRC_CalculateCRC32
+                0x00000000       0x98 ./sm_utils/sm_crc.o
+ .text.sm_CRC_CalculateCRC16_init_value
+                0x00000000       0x30 ./sm_utils/sm_crc.o
  .text          0x00000000        0x0 ./sm_store/sm_config_store.o
  .data          0x00000000        0x0 ./sm_store/sm_config_store.o
  .bss           0x00000000        0x0 ./sm_store/sm_config_store.o
  .rodata.MAGIC_KEY_VALUE
                 0x00000000        0x4 ./sm_store/sm_config_store.o
- .text          0x00000000        0x0 ./sm_store/sm_crc.o
- .data          0x00000000        0x0 ./sm_store/sm_crc.o
- .bss           0x00000000        0x0 ./sm_store/sm_crc.o
- .text.sm_CRC_Init
-                0x00000000       0x10 ./sm_store/sm_crc.o
- .text.sm_CRC_CalculateCRC8
-                0x00000000       0x38 ./sm_store/sm_crc.o
- .text.sm_CRC_CalculateCRC32
-                0x00000000       0x98 ./sm_store/sm_crc.o
- .text.sm_CRC_CalculateCRC16_init_value
-                0x00000000       0x30 ./sm_store/sm_crc.o
- .text          0x00000000        0x0 ./sm_store/sm_hal_flash.o
- .data          0x00000000        0x0 ./sm_store/sm_hal_flash.o
- .bss           0x00000000        0x0 ./sm_store/sm_hal_flash.o
- .text.sm_hal_flash_init
-                0x00000000       0x10 ./sm_store/sm_hal_flash.o
- .text.sm_hal_flash_get_block_size
-                0x00000000        0xc ./sm_store/sm_hal_flash.o
- .text          0x00000000        0x0 ./sm_store/sm_json_maker.o
- .data          0x00000000        0x0 ./sm_store/sm_json_maker.o
- .bss           0x00000000        0x0 ./sm_store/sm_json_maker.o
+ .text          0x00000000        0x0 ./sm_lib/sm_json_maker.o
+ .data          0x00000000        0x0 ./sm_lib/sm_json_maker.o
+ .bss           0x00000000        0x0 ./sm_lib/sm_json_maker.o
  .rodata.json_arrOpen.str1.4
-                0x00000000        0x4 ./sm_store/sm_json_maker.o
+                0x00000000        0x4 ./sm_lib/sm_json_maker.o
  .text.json_arrOpen
-                0x00000000       0x40 ./sm_store/sm_json_maker.o
+                0x00000000       0x40 ./sm_lib/sm_json_maker.o
  .rodata.json_arrClose.str1.4
-                0x00000000        0x3 ./sm_store/sm_json_maker.o
+                0x00000000        0x3 ./sm_lib/sm_json_maker.o
  .text.json_arrClose
-                0x00000000       0x28 ./sm_store/sm_json_maker.o
+                0x00000000       0x28 ./sm_lib/sm_json_maker.o
  .rodata.json_bool.str1.4
-                0x00000000       0x13 ./sm_store/sm_json_maker.o
+                0x00000000       0x13 ./sm_lib/sm_json_maker.o
  .text.json_bool
-                0x00000000       0x64 ./sm_store/sm_json_maker.o
+                0x00000000       0x64 ./sm_lib/sm_json_maker.o
  .rodata.json_null.str1.4
-                0x00000000        0x6 ./sm_store/sm_json_maker.o
+                0x00000000        0x6 ./sm_lib/sm_json_maker.o
  .text.json_null
-                0x00000000       0x54 ./sm_store/sm_json_maker.o
+                0x00000000       0x54 ./sm_lib/sm_json_maker.o
  .rodata.json_int.str1.4
-                0x00000000        0x3 ./sm_store/sm_json_maker.o
+                0x00000000        0x3 ./sm_lib/sm_json_maker.o
  .text.json_int
-                0x00000000       0x50 ./sm_store/sm_json_maker.o
+                0x00000000       0x50 ./sm_lib/sm_json_maker.o
  .rodata.json_long.str1.4
-                0x00000000        0x4 ./sm_store/sm_json_maker.o
+                0x00000000        0x4 ./sm_lib/sm_json_maker.o
  .text.json_long
-                0x00000000       0x50 ./sm_store/sm_json_maker.o
+                0x00000000       0x50 ./sm_lib/sm_json_maker.o
  .rodata.json_uint.str1.4
-                0x00000000        0x3 ./sm_store/sm_json_maker.o
+                0x00000000        0x3 ./sm_lib/sm_json_maker.o
  .text.json_uint
-                0x00000000       0x50 ./sm_store/sm_json_maker.o
+                0x00000000       0x50 ./sm_lib/sm_json_maker.o
  .rodata.json_ulong.str1.4
-                0x00000000        0x4 ./sm_store/sm_json_maker.o
+                0x00000000        0x4 ./sm_lib/sm_json_maker.o
  .text.json_ulong
-                0x00000000       0x50 ./sm_store/sm_json_maker.o
+                0x00000000       0x50 ./sm_lib/sm_json_maker.o
  .rodata.json_verylong.str1.4
-                0x00000000        0x5 ./sm_store/sm_json_maker.o
+                0x00000000        0x5 ./sm_lib/sm_json_maker.o
  .text.json_verylong
-                0x00000000       0x54 ./sm_store/sm_json_maker.o
+                0x00000000       0x54 ./sm_lib/sm_json_maker.o
  .rodata.json_double.str1.4
-                0x00000000        0x3 ./sm_store/sm_json_maker.o
+                0x00000000        0x3 ./sm_lib/sm_json_maker.o
  .text.json_double
-                0x00000000       0x58 ./sm_store/sm_json_maker.o
- .text          0x00000000        0x0 ./sm_store/sm_parse_proc.o
- .data          0x00000000        0x0 ./sm_store/sm_parse_proc.o
- .bss           0x00000000        0x0 ./sm_store/sm_parse_proc.o
- .text.check_val
-                0x00000000       0x18 ./sm_store/sm_parse_proc.o
- .text          0x00000000        0x0 ./sm_store/sm_tiny_json.o
- .data          0x00000000        0x0 ./sm_store/sm_tiny_json.o
- .bss           0x00000000        0x0 ./sm_store/sm_tiny_json.o
+                0x00000000       0x58 ./sm_lib/sm_json_maker.o
+ .text          0x00000000        0x0 ./sm_lib/sm_tiny_json.o
+ .data          0x00000000        0x0 ./sm_lib/sm_tiny_json.o
+ .bss           0x00000000        0x0 ./sm_lib/sm_tiny_json.o
  .text.json_getPropertyValue
-                0x00000000       0x30 ./sm_store/sm_tiny_json.o
+                0x00000000       0x30 ./sm_lib/sm_tiny_json.o
  .text.json_createWithPool
-                0x00000000       0x54 ./sm_store/sm_tiny_json.o
+                0x00000000       0x54 ./sm_lib/sm_tiny_json.o
+ .text          0x00000000        0x0 ./sm_json_proc/sm_parse_proc.o
+ .data          0x00000000        0x0 ./sm_json_proc/sm_parse_proc.o
+ .bss           0x00000000        0x0 ./sm_json_proc/sm_parse_proc.o
+ .text.check_val
+                0x00000000       0x18 ./sm_json_proc/sm_parse_proc.o
+ .text          0x00000000        0x0 ./sm_hal/sm_hal_flash.o
+ .data          0x00000000        0x0 ./sm_hal/sm_hal_flash.o
+ .bss           0x00000000        0x0 ./sm_hal/sm_hal_flash.o
+ .text.sm_hal_flash_init
+                0x00000000       0x10 ./sm_hal/sm_hal_flash.o
+ .text.sm_hal_flash_get_block_size
+                0x00000000        0xc ./sm_hal/sm_hal_flash.o
  .text          0x00000000        0x0 ./ra_gen/common_data.o
  .data          0x00000000        0x0 ./ra_gen/common_data.o
  .bss           0x00000000        0x0 ./ra_gen/common_data.o
@@ -863,12 +863,12 @@ LOAD C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.2 Rel1/bin/../lib
 LOAD C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.2 Rel1/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v8-m.main+fp/hard/rdimon-crt0.o
 START GROUP
 LOAD ./src/hal_entry.o
+LOAD ./sm_utils/sm_crc.o
 LOAD ./sm_store/sm_config_store.o
-LOAD ./sm_store/sm_crc.o
-LOAD ./sm_store/sm_hal_flash.o
-LOAD ./sm_store/sm_json_maker.o
-LOAD ./sm_store/sm_parse_proc.o
-LOAD ./sm_store/sm_tiny_json.o
+LOAD ./sm_lib/sm_json_maker.o
+LOAD ./sm_lib/sm_tiny_json.o
+LOAD ./sm_json_proc/sm_parse_proc.o
+LOAD ./sm_hal/sm_hal_flash.o
 LOAD ./ra_gen/common_data.o
 LOAD ./ra_gen/hal_data.o
 LOAD ./ra_gen/main.o
@@ -1010,68 +1010,68 @@ END GROUP
  .text.agt0_callback
                 0x0000032c       0x64 ./src/hal_entry.o
                 0x0000032c                agt0_callback
- .text.sm_config_storage_create
-                0x00000390       0x18 ./sm_store/sm_config_store.o
-                0x00000390                sm_config_storage_create
- .text.sm_hal_flash_store
-                0x000003a8       0xc4 ./sm_store/sm_config_store.o
-                0x000003a8                sm_hal_flash_store
- .text.sm_hal_flash_load
-                0x0000046c       0x60 ./sm_store/sm_config_store.o
-                0x0000046c                sm_hal_flash_load
  .text.sm_CRC_CalculateCRC16
-                0x000004cc       0x40 ./sm_store/sm_crc.o
-                0x000004cc                sm_CRC_CalculateCRC16
- .text.flash_cb
-                0x0000050c       0x40 ./sm_store/sm_hal_flash.o
-                0x0000050c                flash_cb
- .text.sm_hal_flash_create
-                0x0000054c       0x44 ./sm_store/sm_hal_flash.o
-                0x0000054c                sm_hal_flash_create
- .text.sm_hal_flash_read
-                0x00000590       0x2c ./sm_store/sm_hal_flash.o
-                0x00000590                sm_hal_flash_read
- .text.sm_hal_flash_erase_block
-                0x000005bc       0x60 ./sm_store/sm_hal_flash.o
-                0x000005bc                sm_hal_flash_erase_block
- .text.sm_hal_flash_write_block
-                0x0000061c       0x64 ./sm_store/sm_hal_flash.o
-                0x0000061c                sm_hal_flash_write_block
+                0x00000390       0x40 ./sm_utils/sm_crc.o
+                0x00000390                sm_CRC_CalculateCRC16
+ .text.sm_config_storage_create
+                0x000003d0       0x18 ./sm_store/sm_config_store.o
+                0x000003d0                sm_config_storage_create
+ .text.sm_hal_flash_store
+                0x000003e8       0xc4 ./sm_store/sm_config_store.o
+                0x000003e8                sm_hal_flash_store
+ .text.sm_hal_flash_load
+                0x000004ac       0x60 ./sm_store/sm_config_store.o
+                0x000004ac                sm_hal_flash_load
  .text.json_objOpen
-                0x00000680       0x40 ./sm_store/sm_json_maker.o
-                0x00000680                json_objOpen
+                0x0000050c       0x40 ./sm_lib/sm_json_maker.o
+                0x0000050c                json_objOpen
  .text.json_objClose
-                0x000006c0       0x28 ./sm_store/sm_json_maker.o
-                0x000006c0                json_objClose
+                0x0000054c       0x28 ./sm_lib/sm_json_maker.o
+                0x0000054c                json_objClose
  .text.json_str
-                0x000006e8       0xec ./sm_store/sm_json_maker.o
-                0x000006e8                json_str
+                0x00000574       0xec ./sm_lib/sm_json_maker.o
+                0x00000574                json_str
  .text.json_end
-                0x000007d4       0x10 ./sm_store/sm_json_maker.o
-                0x000007d4                json_end
- .text.sm_topic_config_handle
-                0x000007e4      0x190 ./sm_store/sm_parse_proc.o
-                0x000007e4                sm_topic_config_handle
- .text.sm_topic_config_response
-                0x00000974       0x84 ./sm_store/sm_parse_proc.o
-                0x00000974                sm_topic_config_response
+                0x00000660       0x10 ./sm_lib/sm_json_maker.o
+                0x00000660                json_end
  .text.parseString
-                0x000009f8       0xa4 ./sm_store/sm_tiny_json.o
+                0x00000670       0xa4 ./sm_lib/sm_tiny_json.o
  .text.poolInit
-                0x00000a9c        0xc ./sm_store/sm_tiny_json.o
- .text.poolNew  0x00000aa8       0x20 ./sm_store/sm_tiny_json.o
+                0x00000714        0xc ./sm_lib/sm_tiny_json.o
+ .text.poolNew  0x00000720       0x20 ./sm_lib/sm_tiny_json.o
  .text.isEndOfPrimitive
-                0x00000ac8       0x34 ./sm_store/sm_tiny_json.o
+                0x00000740       0x34 ./sm_lib/sm_tiny_json.o
  .text.primitiveValue
-                0x00000afc       0x50 ./sm_store/sm_tiny_json.o
+                0x00000774       0x50 ./sm_lib/sm_tiny_json.o
  .text.objValue.constprop.0
-                0x00000b4c      0x388 ./sm_store/sm_tiny_json.o
+                0x000007c4      0x388 ./sm_lib/sm_tiny_json.o
  .text.json_getProperty
-                0x00000ed4       0x20 ./sm_store/sm_tiny_json.o
-                0x00000ed4                json_getProperty
+                0x00000b4c       0x20 ./sm_lib/sm_tiny_json.o
+                0x00000b4c                json_getProperty
  .text.json_create
-                0x00000ef4       0x68 ./sm_store/sm_tiny_json.o
-                0x00000ef4                json_create
+                0x00000b6c       0x68 ./sm_lib/sm_tiny_json.o
+                0x00000b6c                json_create
+ .text.sm_topic_config_handle
+                0x00000bd4      0x190 ./sm_json_proc/sm_parse_proc.o
+                0x00000bd4                sm_topic_config_handle
+ .text.sm_topic_config_response
+                0x00000d64       0x84 ./sm_json_proc/sm_parse_proc.o
+                0x00000d64                sm_topic_config_response
+ .text.flash_cb
+                0x00000de8       0x40 ./sm_hal/sm_hal_flash.o
+                0x00000de8                flash_cb
+ .text.sm_hal_flash_create
+                0x00000e28       0x44 ./sm_hal/sm_hal_flash.o
+                0x00000e28                sm_hal_flash_create
+ .text.sm_hal_flash_read
+                0x00000e6c       0x2c ./sm_hal/sm_hal_flash.o
+                0x00000e6c                sm_hal_flash_read
+ .text.sm_hal_flash_erase_block
+                0x00000e98       0x60 ./sm_hal/sm_hal_flash.o
+                0x00000e98                sm_hal_flash_erase_block
+ .text.sm_hal_flash_write_block
+                0x00000ef8       0x64 ./sm_hal/sm_hal_flash.o
+                0x00000ef8                sm_hal_flash_write_block
  .text.startup.main
                 0x00000f5c        0xc ./ra_gen/main.o
                 0x00000f5c                main
@@ -1237,30 +1237,30 @@ END GROUP
  *(.dtors)
  *(.rodata*)
  .rodata.test_parse_config.str1.4
-                0x000027a0      0x19d ./src/hal_entry.o
+                0x000027a0      0x19e ./src/hal_entry.o
                                  0xc7 (size before relaxing)
  .rodata.json_objOpen.str1.4
-                0x0000293d        0x4 ./sm_store/sm_json_maker.o
+                0x0000293e        0x4 ./sm_lib/sm_json_maker.o
  .rodata.json_objClose.str1.4
-                0x0000293d        0x3 ./sm_store/sm_json_maker.o
+                0x0000293e        0x3 ./sm_lib/sm_json_maker.o
  .rodata.json_str.str1.4
-                0x0000293d       0x19 ./sm_store/sm_json_maker.o
- *fill*         0x0000293d        0x3 ff
+                0x0000293e       0x19 ./sm_lib/sm_json_maker.o
+ *fill*         0x0000293e        0x2 ff
  .rodata.pair.0
-                0x00002940       0x10 ./sm_store/sm_json_maker.o
- .rodata.sm_topic_config_handle.str1.4
-                0x00002950       0x67 ./sm_store/sm_parse_proc.o
- .rodata.sm_topic_config_response.str1.4
-                0x00002950       0x2a ./sm_store/sm_parse_proc.o
+                0x00002940       0x10 ./sm_lib/sm_json_maker.o
  .rodata.isEndOfPrimitive.str1.4
-                0x00002950        0xb ./sm_store/sm_tiny_json.o
+                0x00002950        0xb ./sm_lib/sm_tiny_json.o
  .rodata.objValue.constprop.0.str1.4
-                0x00002950       0x15 ./sm_store/sm_tiny_json.o
- .rodata.max.0  0x00002950       0x14 ./sm_store/sm_tiny_json.o
- .rodata.min.1  0x00002964       0x15 ./sm_store/sm_tiny_json.o
+                0x00002950       0x15 ./sm_lib/sm_tiny_json.o
+ .rodata.max.0  0x00002950       0x14 ./sm_lib/sm_tiny_json.o
+ .rodata.min.1  0x00002964       0x15 ./sm_lib/sm_tiny_json.o
  *fill*         0x00002979        0x3 ff
  .rodata.pair.2
-                0x0000297c       0x10 ./sm_store/sm_tiny_json.o
+                0x0000297c       0x10 ./sm_lib/sm_tiny_json.o
+ .rodata.sm_topic_config_handle.str1.4
+                0x0000298c       0x67 ./sm_json_proc/sm_parse_proc.o
+ .rodata.sm_topic_config_response.str1.4
+                0x0000298c       0x2a ./sm_json_proc/sm_parse_proc.o
  .rodata.g_timer0_cfg
                 0x0000298c       0x20 ./ra_gen/hal_data.o
                 0x0000298c                g_timer0_cfg
@@ -1366,9 +1366,9 @@ END GROUP
                 0x20000000       0x20 ./src/hal_entry.o
                 0x20000000                bp_config_data_default
  .data.CRC16Table
-                0x20000020        0x4 ./sm_store/sm_crc.o
+                0x20000020        0x4 ./sm_utils/sm_crc.o
  .data.crc_16_buypass_lut
-                0x20000024      0x200 ./sm_store/sm_crc.o
+                0x20000024      0x200 ./sm_utils/sm_crc.o
  .data._impure_ptr
                 0x20000224        0x4 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.2 Rel1/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v8-m.main+fp/hard\libg_nano.a(libc_a-impure.o)
                 0x20000224                _impure_ptr
@@ -1552,15 +1552,15 @@ END GROUP
                 0x200002e8        0x8 ./src/hal_entry.o
                 0x200002e8                timer0_counter
  .bss.g_hal_flash
-                0x200002f0       0x10 ./sm_store/sm_hal_flash.o
+                0x200002f0       0x10 ./sm_hal/sm_hal_flash.o
  .bss.g_b_flash_event_write_complete
-                0x20000300        0x1 ./sm_store/sm_hal_flash.o
+                0x20000300        0x1 ./sm_hal/sm_hal_flash.o
  .bss.g_b_flash_event_erase_complete
-                0x20000301        0x1 ./sm_store/sm_hal_flash.o
+                0x20000301        0x1 ./sm_hal/sm_hal_flash.o
  .bss.g_b_flash_event_blank
-                0x20000302        0x1 ./sm_store/sm_hal_flash.o
+                0x20000302        0x1 ./sm_hal/sm_hal_flash.o
  .bss.g_b_flash_event_not_blank
-                0x20000303        0x1 ./sm_store/sm_hal_flash.o
+                0x20000303        0x1 ./sm_hal/sm_hal_flash.o
  .bss.g_timer0_ctrl
                 0x20000304       0x20 ./ra_gen/hal_data.o
                 0x20000304                g_timer0_ctrl
@@ -1789,17 +1789,17 @@ LOAD linker stubs
  .ARM.attributes
                 0x0000005e       0x3a ./src/hal_entry.o
  .ARM.attributes
-                0x00000098       0x3a ./sm_store/sm_config_store.o
+                0x00000098       0x3a ./sm_utils/sm_crc.o
  .ARM.attributes
-                0x000000d2       0x3a ./sm_store/sm_crc.o
+                0x000000d2       0x3a ./sm_store/sm_config_store.o
  .ARM.attributes
-                0x0000010c       0x3a ./sm_store/sm_hal_flash.o
+                0x0000010c       0x3a ./sm_lib/sm_json_maker.o
  .ARM.attributes
-                0x00000146       0x3a ./sm_store/sm_json_maker.o
+                0x00000146       0x3a ./sm_lib/sm_tiny_json.o
  .ARM.attributes
-                0x00000180       0x3a ./sm_store/sm_parse_proc.o
+                0x00000180       0x3a ./sm_json_proc/sm_parse_proc.o
  .ARM.attributes
-                0x000001ba       0x3a ./sm_store/sm_tiny_json.o
+                0x000001ba       0x3a ./sm_hal/sm_hal_flash.o
  .ARM.attributes
                 0x000001f4       0x3a ./ra_gen/hal_data.o
  .ARM.attributes
@@ -1878,12 +1878,12 @@ LOAD linker stubs
 .comment        0x00000000       0x44
  .comment       0x00000000       0x44 ./src/hal_entry.o
                                  0x45 (size before relaxing)
+ .comment       0x00000044       0x45 ./sm_utils/sm_crc.o
  .comment       0x00000044       0x45 ./sm_store/sm_config_store.o
- .comment       0x00000044       0x45 ./sm_store/sm_crc.o
- .comment       0x00000044       0x45 ./sm_store/sm_hal_flash.o
- .comment       0x00000044       0x45 ./sm_store/sm_json_maker.o
- .comment       0x00000044       0x45 ./sm_store/sm_parse_proc.o
- .comment       0x00000044       0x45 ./sm_store/sm_tiny_json.o
+ .comment       0x00000044       0x45 ./sm_lib/sm_json_maker.o
+ .comment       0x00000044       0x45 ./sm_lib/sm_tiny_json.o
+ .comment       0x00000044       0x45 ./sm_json_proc/sm_parse_proc.o
+ .comment       0x00000044       0x45 ./sm_hal/sm_hal_flash.o
  .comment       0x00000044       0x45 ./ra_gen/hal_data.o
  .comment       0x00000044       0x45 ./ra_gen/main.o
  .comment       0x00000044       0x45 ./ra_gen/vector_data.o
@@ -1902,12 +1902,12 @@ LOAD linker stubs
 
 .debug_info     0x00000000    0x2589c
  .debug_info    0x00000000     0x1950 ./src/hal_entry.o
- .debug_info    0x00001950      0x5de ./sm_store/sm_config_store.o
- .debug_info    0x00001f2e      0x3b7 ./sm_store/sm_crc.o
- .debug_info    0x000022e5     0x11e3 ./sm_store/sm_hal_flash.o
- .debug_info    0x000034c8     0x10cc ./sm_store/sm_json_maker.o
- .debug_info    0x00004594      0xc15 ./sm_store/sm_parse_proc.o
- .debug_info    0x000051a9     0x1259 ./sm_store/sm_tiny_json.o
+ .debug_info    0x00001950      0x3b7 ./sm_utils/sm_crc.o
+ .debug_info    0x00001d07      0x5de ./sm_store/sm_config_store.o
+ .debug_info    0x000022e5     0x10cc ./sm_lib/sm_json_maker.o
+ .debug_info    0x000033b1     0x1259 ./sm_lib/sm_tiny_json.o
+ .debug_info    0x0000460a      0xc15 ./sm_json_proc/sm_parse_proc.o
+ .debug_info    0x0000521f     0x11e3 ./sm_hal/sm_hal_flash.o
  .debug_info    0x00006402     0x1cee ./ra_gen/hal_data.o
  .debug_info    0x000080f0       0xb1 ./ra_gen/main.o
  .debug_info    0x000081a1      0x67e ./ra_gen/vector_data.o
@@ -1926,12 +1926,12 @@ LOAD linker stubs
 
 .debug_abbrev   0x00000000     0x355f
  .debug_abbrev  0x00000000      0x3ae ./src/hal_entry.o
- .debug_abbrev  0x000003ae      0x15e ./sm_store/sm_config_store.o
- .debug_abbrev  0x0000050c      0x1c9 ./sm_store/sm_crc.o
- .debug_abbrev  0x000006d5      0x2bd ./sm_store/sm_hal_flash.o
- .debug_abbrev  0x00000992      0x250 ./sm_store/sm_json_maker.o
- .debug_abbrev  0x00000be2      0x2b4 ./sm_store/sm_parse_proc.o
- .debug_abbrev  0x00000e96      0x4e0 ./sm_store/sm_tiny_json.o
+ .debug_abbrev  0x000003ae      0x1c9 ./sm_utils/sm_crc.o
+ .debug_abbrev  0x00000577      0x15e ./sm_store/sm_config_store.o
+ .debug_abbrev  0x000006d5      0x250 ./sm_lib/sm_json_maker.o
+ .debug_abbrev  0x00000925      0x4e0 ./sm_lib/sm_tiny_json.o
+ .debug_abbrev  0x00000e05      0x2b4 ./sm_json_proc/sm_parse_proc.o
+ .debug_abbrev  0x000010b9      0x2bd ./sm_hal/sm_hal_flash.o
  .debug_abbrev  0x00001376      0x25f ./ra_gen/hal_data.o
  .debug_abbrev  0x000015d5       0x61 ./ra_gen/main.o
  .debug_abbrev  0x00001636       0xbd ./ra_gen/vector_data.o
@@ -1953,17 +1953,17 @@ LOAD linker stubs
  .debug_loclists
                 0x00000000       0xc2 ./src/hal_entry.o
  .debug_loclists
-                0x000000c2      0x3cd ./sm_store/sm_config_store.o
+                0x000000c2      0x4f5 ./sm_utils/sm_crc.o
  .debug_loclists
-                0x0000048f      0x4f5 ./sm_store/sm_crc.o
+                0x000005b7      0x3cd ./sm_store/sm_config_store.o
  .debug_loclists
-                0x00000984      0x2f8 ./sm_store/sm_hal_flash.o
+                0x00000984     0x12e5 ./sm_lib/sm_json_maker.o
  .debug_loclists
-                0x00000c7c     0x12e5 ./sm_store/sm_json_maker.o
+                0x00001c69      0xd33 ./sm_lib/sm_tiny_json.o
  .debug_loclists
-                0x00001f61      0x458 ./sm_store/sm_parse_proc.o
+                0x0000299c      0x458 ./sm_json_proc/sm_parse_proc.o
  .debug_loclists
-                0x000023b9      0xd33 ./sm_store/sm_tiny_json.o
+                0x00002df4      0x2f8 ./sm_hal/sm_hal_flash.o
  .debug_loclists
                 0x000030ec     0x1585 ./ra/fsp/src/r_flash_hp/r_flash_hp.o
  .debug_loclists
@@ -1989,17 +1989,17 @@ LOAD linker stubs
  .debug_aranges
                 0x00000000       0x30 ./src/hal_entry.o
  .debug_aranges
-                0x00000030       0x30 ./sm_store/sm_config_store.o
+                0x00000030       0x40 ./sm_utils/sm_crc.o
  .debug_aranges
-                0x00000060       0x40 ./sm_store/sm_crc.o
+                0x00000070       0x30 ./sm_store/sm_config_store.o
  .debug_aranges
-                0x000000a0       0x50 ./sm_store/sm_hal_flash.o
+                0x000000a0       0x88 ./sm_lib/sm_json_maker.o
  .debug_aranges
-                0x000000f0       0x88 ./sm_store/sm_json_maker.o
+                0x00000128       0x68 ./sm_lib/sm_tiny_json.o
  .debug_aranges
-                0x00000178       0x30 ./sm_store/sm_parse_proc.o
+                0x00000190       0x30 ./sm_json_proc/sm_parse_proc.o
  .debug_aranges
-                0x000001a8       0x68 ./sm_store/sm_tiny_json.o
+                0x000001c0       0x50 ./sm_hal/sm_hal_flash.o
  .debug_aranges
                 0x00000210       0x20 ./ra_gen/hal_data.o
  .debug_aranges
@@ -2036,17 +2036,17 @@ LOAD linker stubs
  .debug_rnglists
                 0x00000000       0x2c ./src/hal_entry.o
  .debug_rnglists
-                0x0000002c       0x20 ./sm_store/sm_config_store.o
+                0x0000002c       0x44 ./sm_utils/sm_crc.o
  .debug_rnglists
-                0x0000004c       0x44 ./sm_store/sm_crc.o
+                0x00000070       0x20 ./sm_store/sm_config_store.o
  .debug_rnglists
-                0x00000090       0x52 ./sm_store/sm_hal_flash.o
+                0x00000090      0x2d5 ./sm_lib/sm_json_maker.o
  .debug_rnglists
-                0x000000e2      0x2d5 ./sm_store/sm_json_maker.o
+                0x00000365      0x1ea ./sm_lib/sm_tiny_json.o
  .debug_rnglists
-                0x000003b7       0x51 ./sm_store/sm_parse_proc.o
+                0x0000054f       0x51 ./sm_json_proc/sm_parse_proc.o
  .debug_rnglists
-                0x00000408      0x1ea ./sm_store/sm_tiny_json.o
+                0x000005a0       0x52 ./sm_hal/sm_hal_flash.o
  .debug_rnglists
                 0x000005f2       0x13 ./ra_gen/hal_data.o
  .debug_rnglists
@@ -2074,63 +2074,63 @@ LOAD linker stubs
  .debug_rnglists
                 0x00000cf5       0x35 ./ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/system.o
 
-.debug_line     0x00000000     0x8c62
- .debug_line    0x00000000      0x5fa ./src/hal_entry.o
- .debug_line    0x000005fa      0x3ce ./sm_store/sm_config_store.o
- .debug_line    0x000009c8      0x3d5 ./sm_store/sm_crc.o
- .debug_line    0x00000d9d      0x6c6 ./sm_store/sm_hal_flash.o
- .debug_line    0x00001463     0x106a ./sm_store/sm_json_maker.o
- .debug_line    0x000024cd      0x579 ./sm_store/sm_parse_proc.o
- .debug_line    0x00002a46      0xce2 ./sm_store/sm_tiny_json.o
- .debug_line    0x00003728      0x2e6 ./ra_gen/hal_data.o
- .debug_line    0x00003a0e       0x5e ./ra_gen/main.o
- .debug_line    0x00003a6c      0x13b ./ra_gen/vector_data.o
- .debug_line    0x00003ba7     0x1c25 ./ra/fsp/src/r_flash_hp/r_flash_hp.o
- .debug_line    0x000057cc     0x110d ./ra/fsp/src/r_agt/r_agt.o
- .debug_line    0x000068d9      0x76f ./ra/fsp/src/bsp/mcu/all/bsp_clocks.o
- .debug_line    0x00007048      0x292 ./ra/fsp/src/bsp/mcu/all/bsp_common.o
- .debug_line    0x000072da      0x2a3 ./ra/fsp/src/bsp/mcu/all/bsp_delay.o
- .debug_line    0x0000757d      0x307 ./ra/fsp/src/bsp/mcu/all/bsp_group_irq.o
- .debug_line    0x00007884      0x50b ./ra/fsp/src/bsp/mcu/all/bsp_irq.o
- .debug_line    0x00007d8f      0x3bd ./ra/fsp/src/bsp/mcu/all/bsp_register_protection.o
- .debug_line    0x0000814c      0x129 ./ra/fsp/src/bsp/mcu/all/bsp_rom_registers.o
- .debug_line    0x00008275      0x1c0 ./ra/fsp/src/bsp/mcu/all/bsp_sbrk.o
- .debug_line    0x00008435      0x1df ./ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/startup.o
- .debug_line    0x00008614      0x64e ./ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/system.o
+.debug_line     0x00000000     0x8dc0
+ .debug_line    0x00000000      0x672 ./src/hal_entry.o
+ .debug_line    0x00000672      0x3d5 ./sm_utils/sm_crc.o
+ .debug_line    0x00000a47      0x442 ./sm_store/sm_config_store.o
+ .debug_line    0x00000e89     0x1068 ./sm_lib/sm_json_maker.o
+ .debug_line    0x00001ef1      0xce0 ./sm_lib/sm_tiny_json.o
+ .debug_line    0x00002bd1      0x5f1 ./sm_json_proc/sm_parse_proc.o
+ .debug_line    0x000031c2      0x6c4 ./sm_hal/sm_hal_flash.o
+ .debug_line    0x00003886      0x2e6 ./ra_gen/hal_data.o
+ .debug_line    0x00003b6c       0x5e ./ra_gen/main.o
+ .debug_line    0x00003bca      0x13b ./ra_gen/vector_data.o
+ .debug_line    0x00003d05     0x1c25 ./ra/fsp/src/r_flash_hp/r_flash_hp.o
+ .debug_line    0x0000592a     0x110d ./ra/fsp/src/r_agt/r_agt.o
+ .debug_line    0x00006a37      0x76f ./ra/fsp/src/bsp/mcu/all/bsp_clocks.o
+ .debug_line    0x000071a6      0x292 ./ra/fsp/src/bsp/mcu/all/bsp_common.o
+ .debug_line    0x00007438      0x2a3 ./ra/fsp/src/bsp/mcu/all/bsp_delay.o
+ .debug_line    0x000076db      0x307 ./ra/fsp/src/bsp/mcu/all/bsp_group_irq.o
+ .debug_line    0x000079e2      0x50b ./ra/fsp/src/bsp/mcu/all/bsp_irq.o
+ .debug_line    0x00007eed      0x3bd ./ra/fsp/src/bsp/mcu/all/bsp_register_protection.o
+ .debug_line    0x000082aa      0x129 ./ra/fsp/src/bsp/mcu/all/bsp_rom_registers.o
+ .debug_line    0x000083d3      0x1c0 ./ra/fsp/src/bsp/mcu/all/bsp_sbrk.o
+ .debug_line    0x00008593      0x1df ./ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/startup.o
+ .debug_line    0x00008772      0x64e ./ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/system.o
 
-.debug_str      0x00000000     0x9525
- .debug_str     0x00000000     0x9525 ./src/hal_entry.o
+.debug_str      0x00000000     0x9523
+ .debug_str     0x00000000     0x9523 ./src/hal_entry.o
                                0x26b0 (size before relaxing)
- .debug_str     0x00009525      0x46a ./sm_store/sm_config_store.o
- .debug_str     0x00009525      0x2f7 ./sm_store/sm_crc.o
- .debug_str     0x00009525     0x2364 ./sm_store/sm_hal_flash.o
- .debug_str     0x00009525      0x2d5 ./sm_store/sm_json_maker.o
- .debug_str     0x00009525      0x458 ./sm_store/sm_parse_proc.o
- .debug_str     0x00009525      0x474 ./sm_store/sm_tiny_json.o
- .debug_str     0x00009525     0x2fb7 ./ra_gen/hal_data.o
- .debug_str     0x00009525      0x1e4 ./ra_gen/main.o
- .debug_str     0x00009525     0x1685 ./ra_gen/vector_data.o
- .debug_str     0x00009525     0x48ba ./ra/fsp/src/r_flash_hp/r_flash_hp.o
- .debug_str     0x00009525     0x4e03 ./ra/fsp/src/r_agt/r_agt.o
- .debug_str     0x00009525     0x2628 ./ra/fsp/src/bsp/mcu/all/bsp_clocks.o
- .debug_str     0x00009525     0x1c31 ./ra/fsp/src/bsp/mcu/all/bsp_common.o
- .debug_str     0x00009525      0x30d ./ra/fsp/src/bsp/mcu/all/bsp_delay.o
- .debug_str     0x00009525     0x2198 ./ra/fsp/src/bsp/mcu/all/bsp_group_irq.o
- .debug_str     0x00009525     0x2078 ./ra/fsp/src/bsp/mcu/all/bsp_irq.o
- .debug_str     0x00009525     0x1b64 ./ra/fsp/src/bsp/mcu/all/bsp_register_protection.o
- .debug_str     0x00009525      0x341 ./ra/fsp/src/bsp/mcu/all/bsp_rom_registers.o
- .debug_str     0x00009525      0x26e ./ra/fsp/src/bsp/mcu/all/bsp_sbrk.o
- .debug_str     0x00009525      0x27c ./ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/startup.o
- .debug_str     0x00009525      0x977 ./ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/system.o
+ .debug_str     0x00009523      0x2f7 ./sm_utils/sm_crc.o
+ .debug_str     0x00009523      0x46a ./sm_store/sm_config_store.o
+ .debug_str     0x00009523      0x2d3 ./sm_lib/sm_json_maker.o
+ .debug_str     0x00009523      0x472 ./sm_lib/sm_tiny_json.o
+ .debug_str     0x00009523      0x45c ./sm_json_proc/sm_parse_proc.o
+ .debug_str     0x00009523     0x2362 ./sm_hal/sm_hal_flash.o
+ .debug_str     0x00009523     0x2fb7 ./ra_gen/hal_data.o
+ .debug_str     0x00009523      0x1e4 ./ra_gen/main.o
+ .debug_str     0x00009523     0x1685 ./ra_gen/vector_data.o
+ .debug_str     0x00009523     0x48ba ./ra/fsp/src/r_flash_hp/r_flash_hp.o
+ .debug_str     0x00009523     0x4e03 ./ra/fsp/src/r_agt/r_agt.o
+ .debug_str     0x00009523     0x2628 ./ra/fsp/src/bsp/mcu/all/bsp_clocks.o
+ .debug_str     0x00009523     0x1c31 ./ra/fsp/src/bsp/mcu/all/bsp_common.o
+ .debug_str     0x00009523      0x30d ./ra/fsp/src/bsp/mcu/all/bsp_delay.o
+ .debug_str     0x00009523     0x2198 ./ra/fsp/src/bsp/mcu/all/bsp_group_irq.o
+ .debug_str     0x00009523     0x2078 ./ra/fsp/src/bsp/mcu/all/bsp_irq.o
+ .debug_str     0x00009523     0x1b64 ./ra/fsp/src/bsp/mcu/all/bsp_register_protection.o
+ .debug_str     0x00009523      0x341 ./ra/fsp/src/bsp/mcu/all/bsp_rom_registers.o
+ .debug_str     0x00009523      0x26e ./ra/fsp/src/bsp/mcu/all/bsp_sbrk.o
+ .debug_str     0x00009523      0x27c ./ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/startup.o
+ .debug_str     0x00009523      0x977 ./ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/system.o
 
 .debug_frame    0x00000000     0x1118
  .debug_frame   0x00000000       0x70 ./src/hal_entry.o
- .debug_frame   0x00000070       0x98 ./sm_store/sm_config_store.o
- .debug_frame   0x00000108       0x88 ./sm_store/sm_crc.o
- .debug_frame   0x00000190       0xd8 ./sm_store/sm_hal_flash.o
- .debug_frame   0x00000268      0x140 ./sm_store/sm_json_maker.o
- .debug_frame   0x000003a8       0x7c ./sm_store/sm_parse_proc.o
- .debug_frame   0x00000424      0x120 ./sm_store/sm_tiny_json.o
+ .debug_frame   0x00000070       0x88 ./sm_utils/sm_crc.o
+ .debug_frame   0x000000f8       0x98 ./sm_store/sm_config_store.o
+ .debug_frame   0x00000190      0x140 ./sm_lib/sm_json_maker.o
+ .debug_frame   0x000002d0      0x120 ./sm_lib/sm_tiny_json.o
+ .debug_frame   0x000003f0       0x7c ./sm_json_proc/sm_parse_proc.o
+ .debug_frame   0x0000046c       0xd8 ./sm_hal/sm_hal_flash.o
  .debug_frame   0x00000544       0x20 ./ra_gen/hal_data.o
  .debug_frame   0x00000564       0x28 ./ra_gen/main.o
  .debug_frame   0x0000058c      0x294 ./ra/fsp/src/r_flash_hp/r_flash_hp.o
