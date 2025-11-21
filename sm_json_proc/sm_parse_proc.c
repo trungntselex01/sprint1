@@ -139,4 +139,5 @@ void sm_topic_config_response(int32_t _err, char *_buf){
     }
     p = json_objClose (p);
     p = json_end (p);
+    *p = '\0';
 }

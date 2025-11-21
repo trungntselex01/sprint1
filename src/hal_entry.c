@@ -12,7 +12,7 @@
 volatile uint64_t timer0_counter = 0;           // (0x08000000U)    (0x08001FFF)
 #define BUF_SIZE_WORDS   18
 #define FLASH_MODE_DATA     (0x0800003CU)
-#define FLASH_CONFIG_DATA   (0x08000140U)
+#define FLASH_CONFIG_DATA   (0x08000200U)       // (0x08000140U)
 #define FLASH_ENERGY_DATA   (0x08000000U)   // ghi thong so nang luong vao day
 #define FLASH_START_ADDR    (0x08000000U)
 #define FLASH_END_ADDR      0x08001FFFU
@@ -128,6 +128,9 @@ void agt0_callback(timer_callback_args_t *p_args){
     bp_config_data_t _cfg;
     if(check_json_flag == true){
     int32_t _ret = test_parse_config( &_cfg);
+    char resp[128];
+    memset(resp, 0, sizeof(resp));
+    sm_topic_config_response(_ret, resp);
     if(_ret == 1){
     if(sm_hal_flash_store(sprint_app.m_bp_config, &_cfg) == 0){
 
