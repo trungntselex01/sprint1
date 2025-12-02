@@ -141,3 +141,40 @@ void sm_topic_config_response(int32_t _err, char *_buf){
     p = json_end (p);
     *p = '\0';
 }
+
+
+int32_t test_parse_config_ble(bp_config_data_t *_cfg, char test_json)
+    {
+//        const char test_json[] = "{"
+//                "  \"type\": \"SET_CONFIG\","
+//                "  \"data\": {"
+//                "    \"cov_mv\": 4600,"
+//                "    \"cuv_mv\": 3000,"
+//                "    \"utd_deg_c\": 0,"
+//                "    \"otd_deg_c\": 65,"
+//                "    \"occ_ma\": 19000,"
+//                "    \"ocd_ma\": 55000,"
+//                "    \"scd_ma\": 80000,"
+//                "    \"debouce_ms\": 3000"
+//                "  }"
+//                "}";
+
+//        const char test_json[] = "{"
+//                "  \"type\": \"SET_CONFIG\","
+//                "  \"data\": {"
+//                "    \"cov_mv\": 4600,"
+//                "    \"cuv_mv\": 3000"
+//                "  ";
+
+        sm_msg_t msg;
+        msg.m_payload = (char*) test_json;
+
+        bp_config_data_t cfg;
+
+        int32_t ret = sm_topic_config_handle (&msg, &cfg);
+        *_cfg = cfg;
+
+        char resp[128];
+        sm_topic_config_response (ret, resp);
+        return ret;
+    }

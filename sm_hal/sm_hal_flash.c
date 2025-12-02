@@ -67,6 +67,8 @@ sm_hal_flash_impl_t* sm_hal_flash_create(void){
     sm_hal_flash_init();
     return &g_hal_flash;
 }
+
+
 int32_t sm_hal_flash_get_block_size(sm_hal_flash_impl_t *_this){
     sm_hal_flash_impl_t* this = _impl(_this);
     if(!this){
@@ -88,6 +90,7 @@ int32_t sm_hal_flash_read(sm_hal_flash_impl_t *_this, uint32_t _addr, void *_dat
 
     return 0;
 }
+
 
 int32_t sm_hal_flash_erase_block(sm_hal_flash_impl_t *_this, uint32_t _addr, int32_t _size){
     if(!_this){
@@ -115,6 +118,7 @@ int32_t sm_hal_flash_erase_block(sm_hal_flash_impl_t *_this, uint32_t _addr, int
 
     return 0;
 }
+
 
 int32_t sm_hal_flash_write_block(sm_hal_flash_impl_t *_this, uint32_t _addr, void *_data, int32_t _size){
     if(!_this){
@@ -144,6 +148,8 @@ int32_t sm_hal_flash_write_block(sm_hal_flash_impl_t *_this, uint32_t _addr, voi
 
     return -1;
 }
+
+
 
 static fsp_err_t blankcheck_event_flag(void){
 

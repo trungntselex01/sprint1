@@ -39,6 +39,7 @@ sm_config_storage_impl_t* sm_config_storage_create(sm_hal_flash_impl_t *m_flash
     return g_config_storage;
 }
 
+
 int32_t sm_hal_flash_store(sm_config_storage_impl_t *_this, void *_data){
 
     if (!_this)
@@ -82,6 +83,8 @@ int32_t sm_hal_flash_store(sm_config_storage_impl_t *_this, void *_data){
     }
     return 0; //
 }
+
+
 
 int32_t sm_hal_flash_load(sm_config_storage_impl_t *_this, void *_data){
     uint32_t total_size = _this->m_size + 4 +2 ;

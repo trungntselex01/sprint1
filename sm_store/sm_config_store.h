@@ -18,6 +18,7 @@ typedef struct sm_config_storage_impl{
     uint32_t m_size;
 }sm_config_storage_impl_t;
 
+
 sm_config_storage_impl_t* sm_config_storage_create(sm_hal_flash_impl_t *m_flash, uint32_t addr, uint32_t size);
 
 

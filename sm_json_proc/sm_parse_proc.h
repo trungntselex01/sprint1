@@ -20,5 +20,7 @@ void sm_topic_config_response(int32_t _err, char *_buf);
 
 int32_t check_val(uint32_t val, uint32_t min_val, uint32_t max_val);
 
+int32_t test_parse_config_ble(bp_config_data_t *_cfg, char test_json);
+
 
 #endif /* SM_PARSE_PROC_H_ */
